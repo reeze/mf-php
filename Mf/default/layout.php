@@ -1,15 +1,16 @@
 <html>
 <head>
-	<title><?php isset($title) ? print($title) : print("Page") ?> - MF</title>
+	<title>MF:Micro PHP Framework</title>
 	<style type="text/css">
 	body {
+		font-size: 12px;
 		background-color: #efefef;
 		margin: 0;
 	}
 	
 	#wrapper {
 		background-color: #fff;
-		margin: 10px auto;
+		margin: 20px auto;
 		width: 800px;
 		border: 1px solid #acacac;
 	}
@@ -23,12 +24,20 @@
 	#content {
 		padding: 20px
 	}
+	#msg {
+		border: 1px solid #cfcfd0;
+		border-width: 1px 0;
+		background-color: #efefef;
+		padding: 10px;
+		font-size: 14px;
+	}
+	
 	</style>
 </head>
 <body>
 	<div id="wrapper">
 		<div id="header">
-			<h1>MF: Sample App</h1>
+			<h1>MF: The Micro PHP Framework</h1>
 		</div>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 	</div>

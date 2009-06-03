@@ -29,7 +29,12 @@ class Mf
 		ini_set('include_path', ini_get('include_path') . PS . APP_DIR . DS . 'controllers');
 		//debug(ini_get('include_path'));
 		
-		$env_file = ROOT_DIR . DS . 'config' . DS . MF_ENV . '.php';
+		$config_path = ROOT_DIR . DS . 'config';
+		
+		// load config file	
+		require_once $config_path . DS . 'config.php';
+		
+		$env_file = $config_path . DS . 'env' .  DS . MF_ENV . '.php';
 		if(!file_exists($env_file)) throw new MfException("Missing env file: $env_file");
 		
 		// include env config file
@@ -39,6 +44,12 @@ class Mf
     public static function dispatch()
     {
     	self::init();
+    	
+    	//load routes file
+    	require_once ROOT_DIR . DS . 'config/routes.php';
+    	
+    	// get controller and action
+    	Router::route();
     	Dispatcher::dispatch();
     }
 
@@ -52,18 +63,23 @@ if(!function_exists('__autoload'))
 {
     function __autoload($class_name)
     {
-        require_once "$class_name.php";
+        include "$class_name.php";
     }
 }
 
-
+error_reporting(E_ALL | E_STRICT);
 // exception handler
 function exception_handler(Exception $e)
 {
-		echo $e->getMessage();
+	ob_start();
+		echo "<div id=\"msg\">" . $e->getMessage() . "</div>";
 		echo "<pre>" . $e->getTraceAsString() . "</pre>";
 		
 		echo "<hr /> Vars:<br /><pre>" . var_dump(Request::getInstance()) . "</pre>";
+	$content = ob_get_clean();
+	
+	$view = new View(MF_CORE_DIR . DS . 'default' . DS . 'layout.php', array('mf_layout_content' => $content));
+	$view->display();
 }
 
 set_exception_handler('exception_handler');

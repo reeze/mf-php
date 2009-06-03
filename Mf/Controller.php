@@ -17,11 +17,17 @@
     	$this->request = $request;
         // it's a private method of the class or action is not a method of the class
         if (substr($action, 0, 1) == '_' || ! method_exists($this, $action)) {
-            throw new Exception("Action '{$action}' is not valid!");
+            throw new Exception("Action '{$action}' doesn't exist");
         }
         $this->layout = Config::get('default_layout');
         if($this->getRequest()->isAjax()) $this->layout = false;
         
+        /**
+         * User can define a preExecute and postExecute to round there action
+         * 
+         * preExecute will execute before every action began and
+         * postExecute will execute after every action end
+         */
         if(method_exists($this, 'preExecute'))
         {
         	call_user_func_array(array($this, 'preExecute'), array($request));	
@@ -55,7 +61,6 @@
     // redirect
     protected function redirect($url)
     {
-        ob_clean(); // stop output buffer
         header("Location: $url"); // TODO Is it right?
         exit;
     }
@@ -71,12 +76,12 @@
         $this->template = $tpl; 
     }
 
-    // assign the var_name to the view
+    // Assign the var_name to the view
     protected function assign($var_name, $value)
     {
         $this->vars[$var_name] = $value;
     }
-    // render view
+    // Render view
     protected function render()
     {
         // TODO get the view path

@@ -16,11 +16,14 @@ class Request
     private static $_instance;
     private $_parameters = array();
 
+
     // singleton parten, disable new method
     private function __construct()
     {
         // TODO clean it first
-        $this->_parameters = $_REQUEST; // TODO GET POST and URL embed 
+        $this->_parameters = $_REQUEST; // TODO GET POST and URL embed
+        $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
+        $this->setParameter('request_path_info', $path_info);
     }
 
     /**
@@ -28,10 +31,16 @@ class Request
      * @param $key string
      * @return mixed
      */
-    public function getParameter($key)
+    public function getParameter($key, $default = null)
     {
-       return $this->_parameters[$key];
+       return isset($this->_parameters[$key]) ? $this->_parameters[$key] : $default;
     }
+    
+    public function setParameter($key, $value)
+    {
+    	if($key) $this->_parameters[$key] = $value;
+    }
+    
     
     /**
      * Get controller name

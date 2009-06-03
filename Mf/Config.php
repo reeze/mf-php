@@ -4,9 +4,16 @@ class Config
 {
 	private static $_data = array();
 	
-	public static function get($key)
+	/**
+	 * Get the config value by key
+	 *
+	 * @param string $key
+	 * @param mixed $default if the value of the key is null return default value
+	 * @return mixed
+	 */
+	public static function get($key, $default = null)
 	{
-		return self::$_data[$key];
+		return self::$_data[$key] ? self::$_data[$key] : $default;
 	}
 	public static function set($key, $value)
 	{
