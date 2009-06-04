@@ -10,7 +10,7 @@
  * It behavors like php include, borrowed from symfony
  *
  * @param string $partial
- * @param array $params
+ * @param array  $params
  */
 function include_partial($partial, $params)
 {
@@ -19,5 +19,6 @@ function include_partial($partial, $params)
 	$view_path = APP_DIR . DS . 'views' . DS . $request->getController() . DS . "_$partial.php";
 	$view = new View($view_path, $params);
 	
-	echo $view->display();
+	// before output ob_start have stop direct oupt to browse, so we echo but no return string
+	echo $view->display(); 
 }

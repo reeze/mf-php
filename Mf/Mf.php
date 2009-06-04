@@ -1,5 +1,12 @@
 <?php
 /** MF: Simple PHP MVC Framework **/
+/**
+ * @author Reeze <reeze.xia@gmail.com>
+ * @copyright GPL ? thoes license are confuse. maybey someday I will look into them
+ * 
+ * You can use it freely, but no guarantee made.
+ *
+ */
 
 // MF Libray Dir
 define('MF_CORE_DIR', dirname(__FILE__));
@@ -7,12 +14,6 @@ define('MF_CORE_DIR', dirname(__FILE__));
 // for conivent
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
-
-function debug($var)
-{
-	var_dump($var);exit;
-}
-
 
 /**
  * MF Main Framework class
