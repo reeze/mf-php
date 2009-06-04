@@ -37,6 +37,13 @@ class Mf
 		$env_file = $config_path . DS . 'env' .  DS . MF_ENV . '.php';
 		if(!file_exists($env_file)) throw new MfException("Missing env file: $env_file");
 		
+		
+		//include helpers
+		require_once 'MfUtils.php';
+		
+		// use default helpers: url, view
+		UseHelper("Url", 'View');
+		
 		// include env config file
 		require_once $env_file;
     }

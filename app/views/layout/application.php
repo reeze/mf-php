@@ -33,13 +33,16 @@
 		</div>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 		<?php if(Config::get('show_debug_info')) :?>
-			<pre>
-				<?php var_dump(Request::getInstance());?>
-				-------
-				<?php var_dump($_SERVER);?>
-				-------
-				<?php var_dump($_SESSION);?>				
-			</pre>
+			<div>
+				<p><a href="#" onclick="mf_args.style.display=''">Show Env args</a></p>
+				<pre id="mf_args" style="display: none">
+					<?php var_dump(Request::getInstance());?>
+					-------
+					<?php var_dump($_SERVER);?>
+					-------
+					<?php var_dump($_SESSION);?>				
+				</pre>
+			</div>
 		<?php endif;?>
 	</div>
 </body>
