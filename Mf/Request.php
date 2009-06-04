@@ -22,7 +22,24 @@ class Request
     {
         // TODO clean it first
         $this->_parameters = $_REQUEST; // TODO GET POST and URL embed
-        $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
+        
+        //
+        if(!Config::get('url_rewrite') && 
+        	strpos($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']) == 0) // eg: /index.php/blah
+        {
+        	$path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
+        }
+        else // url_rewrited
+        {
+        	$query_str = $_SERVER['QUERY_STRING'];
+        	$path_info = $_SERVER['REQUEST_URI'];
+        	// trim the query string
+        	if($query_str)
+        	{
+        		// +1 means the '?' before query string
+        		$path_info = substr($_SERVER['REQUEST_URI'], 0, - (strlen($query_str) + 1));
+        	}
+        }
         $this->setParameter('request_path_info', $path_info);
     }
 

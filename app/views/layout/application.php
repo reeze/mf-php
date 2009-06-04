@@ -3,6 +3,7 @@
 	<title><?php isset($title) ? print($title) : print("Page") ?> - MF</title>
 	<style type="text/css">
 	body {
+		font-size: 12px;
 		background-color: #efefef;
 		margin: 0;
 	}
@@ -31,6 +32,15 @@
 			<h1>MF: Sample App</h1>
 		</div>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
+		<?php if(Config::get('show_debug_info')) :?>
+			<pre>
+				<?php var_dump(Request::getInstance());?>
+				-------
+				<?php var_dump($_SERVER);?>
+				-------
+				<?php var_dump($_SESSION);?>				
+			</pre>
+		<?php endif;?>
 	</div>
 </body>
 </html>

@@ -1,5 +1,10 @@
 <?php
 
+$query_str = '?' . $_SERVER['QUERY_STRING'];
+// trim the query string
+$path_info = substr($_SERVER['REQUEST_URI'], 0,  - strlen($query_str));
+
+echo $path_info;exit;
 
 var_dump($_SERVER['PATH_INFO']);exit;
 
