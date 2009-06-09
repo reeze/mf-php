@@ -9,7 +9,7 @@
     protected $layout = false;
     protected $template;
     protected $request;
-    protected $vars = array();
+    protected $view_vars = array();
     protected $layout_vars = array();
 
     public function execute($action, Request $request)
@@ -75,12 +75,18 @@
     {
         $this->template = $tpl; 
     }
-
-    // Assign the var_name to the view
-    protected function assign($var_name, $value)
+    
+    // Now view support direct assign
+    // set function $this->name = $value
+    protected function __set($name, $value)
     {
-        $this->vars[$var_name] = $value;
+    	$this->view_vars[$name] = $value;
     }
+    protected function __get($name)
+    {
+    	return isset($this->view_vars[$name]) ? $this->view_vars[$name] : NULL;
+    }
+    
     // Render view
     protected function render()
     {
@@ -91,7 +97,7 @@
         $tpl_path = $view_path . $action_name . ".php";
         
         
-        $view = new View($tpl_path, $this->vars);
+        $view = new View($tpl_path, $this->view_vars);
         
         // render layout
         if($this->layout)

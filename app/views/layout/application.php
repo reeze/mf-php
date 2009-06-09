@@ -36,11 +36,11 @@
 			<div>
 				<p><a href="#" onclick="mf_args.style.display=''">Show Env args</a></p>
 				<pre id="mf_args" style="display: none">
-					<?php var_dump(Request::getInstance());?>
-					-------
-					<?php var_dump($_SERVER);?>
-					-------
-					<?php var_dump($_SESSION);?>				
+<?php var_dump(Request::getInstance());?>
+-------
+<?php var_dump($_SERVER);?>
+-------
+<?php var_dump($_SESSION);?>				
 				</pre>
 			</div>
 		<?php endif;?>

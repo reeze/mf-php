@@ -30,6 +30,9 @@ class Mf
 		ini_set('include_path', ini_get('include_path') . PS . APP_DIR . DS . 'controllers');
 		//debug(ini_get('include_path'));
 		
+		// start session support
+		session_start();
+		
 		$config_path = ROOT_DIR . DS . 'config';
 		
 		// load config file	

@@ -8,15 +8,15 @@ class HomeController extends Controller {
 	
 	public function indexAction(Request $request)
 	{
-		$this->assign('title', "Homepage");
+		$this->title = "What a test£¡";
 		
 		if($request->getMethod() == Request::GET)
 		{
-			$this->assign('method', 'sure GET');
+			$this->method = 'sure GET';
 		}
 	}
 	public function listAction()
 	{
-		$this->assign('news', array('news1', 'news2'));
+		$this->news = array('news1', 'news2');
 	}
 }
