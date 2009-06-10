@@ -15,6 +15,12 @@ class HomeController extends Controller {
 			$this->method = 'sure GET';
 		}
 	}
+	
+	public function testAction(Request $request)
+	{
+		$this->name = $request->getParameter('name');
+	}
+	
 	public function listAction()
 	{
 		$this->news = array('news1', 'news2');

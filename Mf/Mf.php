@@ -74,7 +74,7 @@ if(!function_exists('__autoload'))
 {
     function __autoload($class_name)
     {
-        include "$class_name.php";
+        @include "$class_name.php"; //ignore the file not exist warning
     }
 }
 

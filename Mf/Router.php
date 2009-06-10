@@ -1,54 +1,61 @@
 <?php
 class Router
 {
-	private static $_routes = array('named' => array(), 'anonymous' => array());
+	private static $_routes = array();
+	/**
+	 * Wether config routes are checked?
+	 *
+	 * @var bool
+	 */
+	private static $_checked = false;
 	
 	/**
 	 * Add routes rule
 	 *
 	 * @param array $array
-	 * 			array('route_name' => $name, // empty for anonymous route
-	 * 				  ¡®rule'	=> $rule,
-	 * 				  'params'	=> $params
+	 * 			array('route_name', // empty for anonymous route
+	 * 				  ¡®rule', 		// rule
+	 * 				  array('a' => 1)	// array $params 
 	 * 				);
 	 */
 	public static function connect($routes)
 	{
-		
-		define("ROUTE_NAME", 0);		
-		define("ROUTE_RULE", 1);
-		define("ROUTE_PARAM", 2);
-		foreach ($routes as $route)
-		{
-			$params = isset($route[ROUTE_PARAM]) ? $route[ROUTE_PARAM] : array();
-			$map = array($route[ROUTE_RULE], $params);
-			if($route[ROUTE_NAME])
-			{
-				self::$_routes['named'][$route[ROUTE_NAME]] = $map;
-			}
-			else
-			{
-				self::$_routes['anonymous'][] = $map;
-			}
-		}
+		self::$_routes = $routes;
+	}
+	/**
+	 * Add route to routes table
+	 *
+	 * @param array $route
+	 */
+	public static function prepend($route)
+	{
+		self::$_routes = array_merge($route, self::$_routes);
+	}
+	
+	/**
+	 * Push route to the end of the routes table
+	 *
+	 * @param array $route
+	 */
+	public static function push($route)
+	{
+		self::$_routes = array_merge(self::$_routes, $route);
 	}
 	
 	/**
 	 * Route the request
-	 * @return array return array($controller, $action, $params);
+	 * @return array array($controller, $action, $params);
 	 */
 	public static function route()
 	{
 		$request = Request::getInstance();
 		
-		// we just route, merge to one array
-		$routes = array_merge(self::$_routes['named'], self::$_routes['anonymous']);
-
 		// match the routes
-		foreach ($routes as $route)
+		foreach (self::$_routes as $route)
 		{
-			list($rule, $tokens) = self::compile_route($route[0]);
-
+			list($rule, $tokens) = self::compile_route($route[1]);
+			
+			
 			if(preg_match($rule, $request->getParameter('request_path_info'), $matches) == 1)
 			{
 				// fill the request
@@ -57,13 +64,20 @@ class Router
 					$request->setParameter($token, $matches[$i + 1]);
 				}
 				
-				// fill with params FIXME XXX 0 and 1 is too bad :(.FIXME
-				foreach($route[1] as $key => $value)
+				// fill with params
+				if(isset($route[2]) && is_array($route))
 				{
-					$request->setParameter($key, $value);
+					foreach($route[2] as $key => $value)
+					{
+						$request->setParameter($key, $value);
+					}
 				}
+				
+				Logger::log(ROUTE_LOG, "matched route: {$route[1]}");
 				return;
 			}
+			// Log matching
+			Logger::log(ROUTE_LOG, "matching route: {$route[1]}");
 		}
 		// no route match
 		throw new MfException('No route match:' . $_SERVER['REQUEST_URI']);
@@ -72,6 +86,7 @@ class Router
 	
 	/**
 	 * FIXME It's somehow ungly here
+	 * TODO  add route cache
 	 *
 	 * @var array
 	 */
@@ -102,7 +117,8 @@ class Router
 		$reg_strip_parten = "/([\/\._-])/";
 		$reg_strip_repalce = '\\\$1'; // replace with \(regex char)
 		
-		$route = preg_replace($reg_strip_parten, $reg_strip_repalce, $route);		
+		$route = preg_replace($reg_strip_parten, $reg_strip_repalce, $route);
+		// FIXME more characters should allowed in match parten		
 		$route = preg_replace_callback("/:([a-zA-Z0-9]+)/", '_callback', $route);
 		
 
@@ -112,3 +128,7 @@ class Router
 	}
 	
 }
+
+class RouterExecption extends MfException
+{ }
+

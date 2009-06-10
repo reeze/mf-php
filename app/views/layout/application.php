@@ -40,7 +40,9 @@
 -------
 <?php var_dump($_SERVER);?>
 -------
-<?php var_dump($_SESSION);?>				
+<?php var_dump($_SESSION);?>		
+-------
+<?php var_dump(Logger::getLogs());?>		
 				</pre>
 			</div>
 		<?php endif;?>
