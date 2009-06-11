@@ -13,7 +13,7 @@ class Config
 	 */
 	public static function get($key, $default = null)
 	{
-		return self::$_data[$key] ? self::$_data[$key] : $default;
+		return isset(self::$_data[$key]) ? self::$_data[$key] : $default;
 	}
 	public static function set($key, $value)
 	{

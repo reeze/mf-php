@@ -32,20 +32,6 @@
 			<h1>MF: Sample App</h1>
 		</div>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
-		<?php if(Config::get('show_debug_info')) :?>
-			<div>
-				<p><a href="#" onclick="mf_args.style.display=''">Show Env args</a></p>
-				<pre id="mf_args" style="display: none">
-<?php var_dump(Request::getInstance());?>
--------
-<?php var_dump($_SERVER);?>
--------
-<?php var_dump($_SESSION);?>		
--------
-<?php var_dump(Logger::getLogs());?>		
-				</pre>
-			</div>
-		<?php endif;?>
 	</div>
 </body>
 </html>

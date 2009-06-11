@@ -6,6 +6,7 @@
  */
 
 define('ROUTE_LOG', 'route');
+define('MIDDLEWARE_LOG', 'middleware');
 
 class Logger
 {

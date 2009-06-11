@@ -4,7 +4,7 @@
  * Base Controller
  */
 
- class Controller
+ abstract class Controller
  {
     protected $layout = false;
     protected $template;
@@ -106,12 +106,12 @@
         	$layout_path = APP_DIR . DS . 'views' . DS . 'layout' . DS;
         	$layout = new View($layout_path . $this->layout . '.php', $this->__layout_vars__);
         	
-        	$layout->display();
+        	Response::getInstance()->setBody($layout->getOutput());
         }
         else
         {
-	        // simply display the content
-	       	$view->display();
+	        // no layout
+	       	Response::getInstance()->setBody($view->getOutput());
         }
     }
 
