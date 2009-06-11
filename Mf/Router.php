@@ -77,10 +77,10 @@ class Router
 				return;
 			}
 			// Log matching
-			Logger::log(ROUTE_LOG, "matching route: {$route[1]}");
+			Logger::log(ROUTE_LOG, "mismatch route: {$route[1]}");
 		}
 		// no route match
-		throw new MfException('No route match:' . $_SERVER['REQUEST_URI']);
+		throw new RouterExecption('No route match:' . $_SERVER['REQUEST_URI']);
 	}
 	
 	

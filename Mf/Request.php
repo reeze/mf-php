@@ -14,14 +14,17 @@ class Request
     const AJAX = 'ajax';
 
     private static $_instance;
-    private $_parameters = array();
+    private $parameters = array();
+    
+    private $controller;
+    private $action;
 
 
     // singleton parten, disable new method
     private function __construct()
     {
         // TODO clean it first
-        $this->_parameters = $_REQUEST; // TODO GET POST and URL embed
+        $this->parameters = $_REQUEST; // TODO GET POST and URL embed
         
         //
         if(!Config::get('url_rewrite') && 
@@ -50,12 +53,24 @@ class Request
      */
     public function getParameter($key, $default = null)
     {
-       return isset($this->_parameters[$key]) ? $this->_parameters[$key] : $default;
+       return isset($this->parameters[$key]) ? $this->parameters[$key] : $default;
     }
     
     public function setParameter($key, $value)
     {
-    	if($key) $this->_parameters[$key] = $value;
+    	if(!$key) return;
+    	
+    	switch ($key)
+    	{
+    		case 'controller':
+    			$this->setController($value);
+    			break;
+    		case 'action':
+    			$this->setAction($value);
+    			break;
+    		default:
+    			$this->parameters[$key] = $value;
+    	}
     }
     
     
@@ -66,11 +81,24 @@ class Request
      */
     public function getController()
     {
-    	return $this->getParameter('controller');	
+    	return $this->controller;
     }
+    /**
+     * Set controller name
+     */
+    public function setController($controller)
+    {
+    	$this->controller = $controller;
+    } 
+    
     public function getAction()
     {
-    	return $this->getParameter('action');
+    	return $this->action;
+    }
+    
+    public function setAction($action)
+    {
+    	$this->action = $action;
     }
 
     public function getMethod()

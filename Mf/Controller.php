@@ -8,9 +8,8 @@
  {
     protected $layout = false;
     protected $template;
-    protected $request;
-    protected $view_vars = array();
-    protected $layout_vars = array();
+    protected $__view_vars__ = array();
+    protected $__layout_vars__ = array();
 
     public function execute($action, Request $request)
     {
@@ -51,12 +50,12 @@
      */
     public function getRequest()
     {
-    	return $this->request;
+    	return Request::getInstance();
     }
     
     public function setTitle($title)
     {
-    	$this->layout_vars['title'] = $title;
+    	$this->__layout_vars__['title'] = $title;
     }
     // redirect
     protected function redirect($url)
@@ -80,11 +79,11 @@
     // set function $this->name = $value
     protected function __set($name, $value)
     {
-    	$this->view_vars[$name] = $value;
+    	$this->__view_vars__[$name] = $value;
     }
     protected function __get($name)
     {
-    	return isset($this->view_vars[$name]) ? $this->view_vars[$name] : NULL;
+    	return isset($this->__view_vars__[$name]) ? $this->__view_vars__[$name] : NULL;
     }
     
     // Render view
@@ -97,15 +96,15 @@
         $tpl_path = $view_path . $action_name . ".php";
         
         
-        $view = new View($tpl_path, $this->view_vars);
+        $view = new View($tpl_path, $this->__view_vars__);
         
         // render layout
         if($this->layout)
         {
         	// content here
-        	$this->layout_vars['mf_layout_content'] = $view->getOutput();
+        	$this->__layout_vars__['mf_layout_content'] = $view->getOutput();
         	$layout_path = APP_DIR . DS . 'views' . DS . 'layout' . DS;
-        	$layout = new View($layout_path . $this->layout . '.php', $this->layout_vars);
+        	$layout = new View($layout_path . $this->layout . '.php', $this->__layout_vars__);
         	
         	$layout->display();
         }
