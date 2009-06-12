@@ -18,7 +18,9 @@ class HomeController extends Controller {
 	
 	public function testAction(Request $request)
 	{
-		$this->name = $request->getParameter('name');
+		$this->setFlash('notice', 'Its a notice Flash message');
+		$this->redirect('/blog');
+//		$this->name = $request->getParameter('test');
 	}
 	
 	public function listAction()

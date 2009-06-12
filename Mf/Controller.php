@@ -8,8 +8,8 @@
  {
     protected $layout = false;
     protected $template;
-    protected $__view_vars__ = array();
-    protected $__layout_vars__ = array();
+    protected $_view_vars_ = array();
+    protected $_layout_vars_ = array();
 
     public function execute($action, Request $request)
     {
@@ -55,8 +55,15 @@
     
     public function setTitle($title)
     {
-    	$this->__layout_vars__['title'] = $title;
+    	$this->_layout_vars_['title'] = $title;
     }
+    
+    public function setFlash($type, $message)
+    {
+    	Flash::getInstance()->set($type, $message);
+    }
+    
+    
     // redirect
     protected function redirect($url)
     {
@@ -79,16 +86,37 @@
     // set function $this->name = $value
     protected function __set($name, $value)
     {
-    	$this->__view_vars__[$name] = $value;
+    	$this->_view_vars_[$name] = $value;
     }
     protected function __get($name)
     {
-    	return isset($this->__view_vars__[$name]) ? $this->__view_vars__[$name] : NULL;
+    	return isset($this->_view_vars_[$name]) ? $this->_view_vars_[$name] : NULL;
+    }
+    
+    /**
+     * Get Magic View Vars
+     *
+     * @return array
+     */
+    public function getMagicViewVars()
+    {
+    	$magic_vars = array(
+    		'mf_flash' => Flash::getInstance(),
+    		'mf_request' => Request::getInstance()
+    	);
+    	return $magic_vars;
     }
     
     // Render view
     protected function render()
     {
+    	// Magic view variables
+    	$magic_vars = self::getMagicViewVars();
+    	// merge
+    	
+    	$this->_view_vars_   = array_merge($magic_vars, $this->_view_vars_);
+    	$this->_layout_vars_ = array_merge($magic_vars, $this->_layout_vars_);
+    	
         // TODO get the view path
         $controller_name = $this->getRequest()->getController();
         $action_name = $this->getRequest()->getAction();
@@ -96,15 +124,15 @@
         $tpl_path = $view_path . $action_name . ".php";
         
         
-        $view = new View($tpl_path, $this->__view_vars__);
+        $view = new View($tpl_path, $this->_view_vars_);
         
         // render layout
         if($this->layout)
         {
         	// content here
-        	$this->__layout_vars__['mf_layout_content'] = $view->getOutput();
+        	$this->_layout_vars_['mf_layout_content'] = $view->getOutput();
         	$layout_path = APP_DIR . DS . 'views' . DS . 'layout' . DS;
-        	$layout = new View($layout_path . $this->layout . '.php', $this->__layout_vars__);
+        	$layout = new View($layout_path . $this->layout . '.php', $this->_layout_vars_);
         	
         	Response::getInstance()->setBody($layout->getOutput());
         }

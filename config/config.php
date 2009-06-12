@@ -11,7 +11,8 @@ Config::set('url_rewrite', true);
  * Middleware classes
  */
 $middle_wares = array(
-	'CommonMiddleware', // Common middleware should go first
+	'CommonMiddleware',  // Common middleware should go first
+						 // It output the content of page
 	'ToolBarMiddleware'
 );
 

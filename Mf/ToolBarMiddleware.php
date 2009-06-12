@@ -10,6 +10,8 @@ class ToolBarMiddleware
 			'logs' => Logger::getLogs()
 		);
 		
+		$params = array_merge($params, Controller::getMagicViewVars());
+		
 		$toolbar = new View(MF_CORE_DIR . DS . 'default' . DS . 'toolbar.php', $params);
 		
 		$response = Response::getInstance();

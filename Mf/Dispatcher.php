@@ -8,28 +8,27 @@ class Dispatcher
     public static function dispatch()
     {
     	// Initial middleware classes
-    	$middlewares = Config::get('middlewares', array());
+    	$middleware_classes = Config::get('middlewares', array());
     	
-    	$start_processers = array();
-    	foreach ($middlewares as $middleware) 
+    	$start_middlewares = array();
+    	foreach ($middleware_classes as $middleware_class) 
     	{
-    			$start_processers[] = new $middleware;;
+    			$start_middlewares[] = new $middleware_class;;
     	}
     	    	
-    	
+    	// ===========================================
     	// start process request
     	$request = Request::getInstance();
-    	foreach($start_processers as $processer)
+    	foreach($start_middlewares as $middleware)
     	{
-    	if(method_exists($processer, 'process_request'))
+    		if(method_exists($middleware, 'process_request'))
     		{
-    			$processer->proccess_request($request);
+    			$middleware->process_request($request);
     		}
     	}
-    	
     	// end process request
     	
-    	
+    	// ===========================================
     	// Core Process
     	$controller = $request->getController();
     	$action = $request->getAction();
@@ -45,15 +44,15 @@ class Dispatcher
        	// End Core Process
         
         
-        
-    	$end_processers = array_reverse($start_processers);
-        // start process reponse
+        // ===========================================
+        // start process response
+    	$end_middlewares = array_reverse($start_middlewares);
         $response = Response::getInstance();
-        foreach ($end_processers as $processer)
+        foreach ($end_middlewares as $middleware)
         {
-    		if(method_exists($processer, 'process_response'))
+    		if(method_exists($middleware, 'process_response'))
     		{
-        		$processer->process_response($response);
+        		$middleware->process_response($response);
     		}
         }
         // end process reponse

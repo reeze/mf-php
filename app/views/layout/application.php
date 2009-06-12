@@ -31,6 +31,14 @@
 		<div id="header">
 			<h1>MF: Sample App</h1>
 		</div>
+		<?php
+			if($mf_flash->has('notice'))
+			{
+				echo "<h>";
+				echo $mf_flash->get('notice');
+				echo "</h>";
+			}
+		?>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 	</div>
 </body>
