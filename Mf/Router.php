@@ -2,12 +2,7 @@
 class Router
 {
 	private static $_routes = array();
-	/**
-	 * Wether config routes are checked?
-	 *
-	 * @var bool
-	 */
-	private static $_checked = false;
+	
 	
 	/**
 	 * Add routes rule
@@ -84,6 +79,193 @@ class Router
 	}
 	
 	
+	/**
+	 * generate the internal url to friendly url
+	 * We use symfony style internal url:
+	 * 	- controller/action?params=value
+	 *  - @named_route?params=value
+	 * 
+	 * @param string $internal_url
+	 * @param Boolean $absolut whether return absolute url
+	 * 
+	 * @return url
+	 */
+	public static function generate($internal_url, $absolut=false)
+	{
+		$old_internal_url = $internal_url; // just for exception throw
+		
+		if(empty($internal_url)) $internal_url = '@root'; // default route
+		
+		// parse params
+		$params = array();
+		$hash = '';
+		
+		// hash handle
+		if(($pos_hash = strpos($internal_url, '#')))
+		{
+			$hash = substr($internal_url, $pos_hash + 1);
+			
+			// trim the end hash
+			$internal_url = substr($internal_url, 0, 
+								strlen($internal_url) - strlen($hash) - 1);
+		}
+		
+		if(($pos_q = strpos($internal_url, '?')))
+		{
+			$query = substr($internal_url, $pos_q + 1);
+			$pairs = split('&', $query);
+			
+			foreach ($pairs as $pair)
+			{
+				list($key, $value) = explode('=', $pair);
+				if($key) $params[$key] = $value;
+			}
+			
+			// trim the query string
+			$internal_url = substr($internal_url, 0,
+								strlen($internal_url) - strlen($query) - 1);
+		}
+		
+		// named route start with '@'
+		if($internal_url[0] == '@')
+		{
+			$named_route = substr($internal_url, 1);
+		}
+		else
+		{
+			list($controller, $action) = explode('/', $internal_url);
+			if(!$action) $action = 'index'; // default action name
+			
+			$params['controller'] = $controller;
+			$params['action'] = $action;
+		}
+		
+		foreach (self::$_routes as $route)
+		{
+			if(isset($named_route))
+			{
+				// find the named route and return the url
+				if($route[0] == $named_route)
+				{
+					return self::fill_route($route, $params, $hash, $absolut);
+				}
+				else continue;
+			}
+			else
+			{
+				// trying to match the route with params
+				if(self::match($route, $params))
+				{
+					return self::fill_route($route, $params, $hash, $absolut);
+				}
+			}
+		}
+		
+		// can't generate url
+		throw new RouterExecption("Can't generate url for $old_internal_url");
+	}
+	
+	/**
+	 * Fill the route with params and return the url
+	 *
+	 * @param array $route
+	 * @param array $params
+	 * @param Boolean
+	 * 
+	 * @return string the filled url
+	 */
+	public static function fill_route($route, $params, $hash, $absolute=false)
+	{
+		$rule = $route[1];
+		$default_params = $route[2];
+		
+		// merge the default params
+//		$params = array_merge($route[2], $params);
+		Debug::p($params);
+		foreach ($params as $key => $value)
+		{
+			if(strpos($rule, ":$key") !== false)
+			{
+				// replace it
+				$rule = str_replace(":$key", $value, $rule);
+				
+				// pop params out
+				unset($params[$key]);
+			}
+			else
+			{
+				if(isset($default_params[$key]))
+				{
+					unset($params[$key]); // it has a default value
+				}
+			}
+		}
+		
+		if(strpos($route, ':') !== false)
+		{
+			throw new RouterExecption('Missing require paramter');
+		}
+		
+		$query =  http_build_query($params);
+		$url = $query ? "$rule?" . $query : $rule;
+		
+		if($hash) $url = "$url#" . $hash;
+		
+		// aboslute url
+		if($absolute)
+		{
+			$url = "http://mf-php" . $url; // FIXME got host info here
+		}
+		
+		return $url;		
+	}
+	
+	/**
+	 * Check if the route match the given params
+	 * XXX It' hard to understand. but it works
+	 *
+	 * @param array $route: array('rule', array('params'));
+	 * @param array $params
+	 * @return Boolean
+	 */
+	public static function match($route, $params)
+	{
+		echo "match:" . $route[1] . '<br />';
+		list(, $tokens) = self::compile_route($route[1]);
+		
+		
+		if(count($tokens) > count($route[2]) + count($params)) return false;
+		
+		foreach ($tokens as $token)
+		{
+			if(!isset($route[2][$token]))
+			{
+				if(!isset($params[$token]))
+				{
+					return false;
+				}
+				
+			}
+			if(isset($route[2][$token])) unset($route[2][$token]);
+			if(isset($params[$token])) unset($params[$token]);
+		}
+		
+//		Debug::p(array_intersect($route[2], $params));
+		if($params['controller'] != $route[2]['controller'] ||
+		   $params['action'] != $route[2]['action'])
+		{
+			return false;
+		}
+				
+		return true;
+	}
+		
+	
+	
+	
+	
+	
+	// =================================================================
 	/**
 	 * FIXME It's somehow ungly here
 	 * TODO  add route cache

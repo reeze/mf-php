@@ -11,11 +11,7 @@ function link_to()
 }
 
 // get the url link
-function url_for()
+function url_for($url, $absolute=false)
 {
-	
+	return Router::generate($url, $absolute);
 }
-
-// TODO url_for();
-// this is symfony-like rule
-url_for('controller/test?page=a');

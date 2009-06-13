@@ -82,6 +82,7 @@ error_reporting(E_ALL | E_STRICT);
 // exception handler
 function exception_handler(Exception $e)
 {
+	//ob_clean();
 	ob_start();
 		echo "<div id=\"msg\">" . $e->getMessage() . "</div>";
 		echo "<pre>" . $e->getTraceAsString() . "</pre>";

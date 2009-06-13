@@ -39,6 +39,9 @@
 				echo "</h>";
 			}
 		?>
+		<ul>
+			<li><?php echo url_for("@archive?year=2007&month=08&day=10")?></li>
+		</ul>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 	</div>
 </body>
