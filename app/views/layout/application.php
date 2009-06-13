@@ -41,7 +41,7 @@
 		?>
 		<ul>
 			<li><?php echo link_to("Home", "@root")?></li>
-			<li><?php echo link_to("Archive", "@archive?year=2007&month=08&day=10")?></li>
+			<li><?php echo link_to("Post", "@view_post?year=2007&month=08&day=10&show=It#hah")?></li>
 		</ul>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 	</div>

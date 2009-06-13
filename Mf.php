@@ -1,5 +1,5 @@
 <?php
 
-require 'vender/Mf/Mf.php';
+require 'vendor/Mf/Mf.php';
 
 define('ROOT_DIR', dirname(__FILE__));

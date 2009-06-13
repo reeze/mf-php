@@ -179,10 +179,12 @@ class Router
 		$rule = $route[1];
 		$default_params = $route[2];
 		
+		$new_params = array_merge($params, $route[2]);
+		
 		// merge the default params
 //		$params = array_merge($route[2], $params);
 //		Debug::p($params);
-		foreach ($params as $key => $value)
+		foreach ($new_params as $key => $value)
 		{
 			if(strpos($rule, ":$key") !== false)
 			{
@@ -201,7 +203,7 @@ class Router
 			}
 		}
 		
-		if(strpos($route, ':') !== false)
+		if(strpos($rule, ':') !== false)
 		{
 			throw new RouterExecption('Missing require paramter');
 		}
