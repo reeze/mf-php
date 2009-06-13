@@ -4,21 +4,20 @@
  * Base Controller
  */
 
- abstract class Controller
+ class mfController
  {
     protected $layout = false;
     protected $template;
     protected $_view_vars_ = array();
     protected $_layout_vars_ = array();
 
-    public function execute($action, Request $request)
+    public function execute($action, mfRequest $request)
     {
-    	$this->request = $request;
         // it's a private method of the class or action is not a method of the class
         if (substr($action, 0, 1) == '_' || ! method_exists($this, $action)) {
             throw new Exception("Action '{$action}' doesn't exist in " . get_class($this));
         }
-        $this->layout = Config::get('default_layout');
+        $this->layout = mfConfig::get('default_layout');
         if($this->getRequest()->isAjax()) $this->layout = false;
         
         /**
@@ -50,7 +49,7 @@
      */
     public function getRequest()
     {
-    	return Request::getInstance();
+    	return mfRequest::getInstance();
     }
     
     public function setTitle($title)
@@ -60,7 +59,7 @@
     
     public function setFlash($type, $message)
     {
-    	Flash::getInstance()->set($type, $message);
+    	mfFlash::getInstance()->set($type, $message);
     }
     
     
@@ -101,8 +100,8 @@
     public function getMagicViewVars()
     {
     	$magic_vars = array(
-    		'mf_flash' => Flash::getInstance(),
-    		'mf_request' => Request::getInstance()
+    		'mf_flash' => mfFlash::getInstance(),
+    		'mf_request' => mfRequest::getInstance()
     	);
     	return $magic_vars;
     }
@@ -124,7 +123,7 @@
         $tpl_path = $view_path . $action_name . ".php";
         
         
-        $view = new View($tpl_path, $this->_view_vars_);
+        $view = new mfView($tpl_path, $this->_view_vars_);
         
         // render layout
         if($this->layout)
@@ -132,14 +131,14 @@
         	// content here
         	$this->_layout_vars_['mf_layout_content'] = $view->getOutput();
         	$layout_path = APP_DIR . DS . 'views' . DS . 'layout' . DS;
-        	$layout = new View($layout_path . $this->layout . '.php', $this->_layout_vars_);
+        	$layout = new mfView($layout_path . $this->layout . '.php', $this->_layout_vars_);
         	
-        	Response::getInstance()->setBody($layout->getOutput());
+        	mfResponse::getInstance()->setBody($layout->getOutput());
         }
         else
         {
 	        // no layout
-	       	Response::getInstance()->setBody($view->getOutput());
+	       	mfResponse::getInstance()->setBody($view->getOutput());
         }
     }
 

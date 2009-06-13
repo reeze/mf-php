@@ -1,4 +1,5 @@
 <?php
+
 /** MF: Simple PHP MVC Framework **/
 /**
  * @author Reeze <reeze.xia@gmail.com>
@@ -20,18 +21,24 @@ define('PS', PATH_SEPARATOR);
  **/
 class Mf
 {
+	const MAJOR_VERSION = '0';
+	const MINOR_VERSION = '1';
+	const REVISION		= '1';
+	
     public static function init()
     {
     	define('MF_START_TIME', time()); // framework start time
 		if(!APP_DIR) throw new MfException('Application path havn\'t set yet');
 		if(!defined('MF_ENV')) define('MF_EVN', 'dev'); // default env
 		
-		// set controller include path
-		ini_set('include_path', ini_get('include_path') . PS . APP_DIR . DS . 'controllers');
-		//debug(ini_get('include_path'));
-		
 		// start session support
 		session_start();
+		
+		// We have to explict require auto load class here
+		require_once MF_CORE_DIR . '/autoload/mfAutoloader.class.php';
+		mfAutoLoader::initPath();
+		
+
 		
 		$config_path = ROOT_DIR . DS . 'config';
 		
@@ -43,10 +50,10 @@ class Mf
 		
 		
 		//include helpers
-		require_once 'MfUtils.php';
+		require_once 'util/mfUtils.php';
 		
 		// use default helpers: url, view
-		UseHelper("Url", 'View');
+		UseHelper("Url", 'View', 'Asset');
 		
 		// include env config file
 		require_once $env_file;
@@ -55,30 +62,28 @@ class Mf
     public static function dispatch()
     {
     	self::init();
-    	
     	//load routes file
     	require_once ROOT_DIR . DS . 'config/routes.php';
     	
     	// get controller and action
-    	Router::route();
-    	Dispatcher::dispatch();
+    	mfRoute::route();
+    	mfDispatcher::dispatch();
     }
-
-}
-
-// add include path
-ini_set('include_path', ini_get('include_path') . PS .  MF_CORE_DIR . '/'); // TODO add user app model dir.
-
-// autoload
-if(!function_exists('__autoload'))
-{
-    function __autoload($class_name)
+    
+    /**
+     * Get the current MF version
+     *
+     */
+    public static function getVersion()
     {
-        @include "$class_name.php"; //ignore the file not exist warning
-    }
+    	return self::MAJOR_VERSION . self::MINOR_VERSION . self::REVISION;
+    } 
+
 }
+
 
 error_reporting(E_ALL | E_STRICT);
+
 // exception handler
 function exception_handler(Exception $e)
 {
@@ -87,10 +92,10 @@ function exception_handler(Exception $e)
 		echo "<div id=\"msg\">" . $e->getMessage() . "</div>";
 		echo "<pre>" . $e->getTraceAsString() . "</pre>";
 		
-		echo "<hr /> Vars:<br /><pre>" . var_dump(Request::getInstance()) . "</pre>";
+		echo "<hr /> Vars:<br /><pre>" . var_dump(mfRequest::getInstance()) . "</pre>";
 	$content = ob_get_clean();
 	
-	$view = new View(MF_CORE_DIR . DS . 'default' . DS . 'layout.php', array('mf_layout_content' => $content));
+	$view = new mfView(MF_CORE_DIR . DS . 'default' . DS . 'layout.php', array('mf_layout_content' => $content));
 	$view->display();
 }
 

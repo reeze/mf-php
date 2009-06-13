@@ -1,5 +1,5 @@
 <?php
-class Router
+class mfRoute
 {
 	private static $_routes = array();
 	
@@ -43,7 +43,7 @@ class Router
 	 */
 	public static function route()
 	{
-		$request = Request::getInstance();
+		$request = mfRequest::getInstance();
 		
 		// match the routes
 		foreach (self::$_routes as $route)
@@ -68,11 +68,11 @@ class Router
 					}
 				}
 				
-				Logger::log(ROUTE_LOG, "matched route: {$route[1]}");
+				mfLogger::log(ROUTE_LOG, "matched route: {$route[1]}");
 				return;
 			}
 			// Log matching
-			Logger::log(ROUTE_LOG, "mismatch route: {$route[1]}");
+			mfLogger::log(ROUTE_LOG, "mismatch route: {$route[1]}");
 		}
 		// no route match
 		throw new RouterExecption('No route match:' . $_SERVER['REQUEST_URI']);
@@ -289,7 +289,7 @@ class Router
 		{
 			function _callback($match)
 			{
-				Router::$compile_tokens[] = $match[1];
+				mfRoute::$compile_tokens[] = $match[1];
 				//var_dump(Router::$compile_tokens);echo "<br />";
 				
 				return "([a-zA-Z0-9]+)";
@@ -313,6 +313,6 @@ class Router
 	
 }
 
-class RouterExecption extends MfException
+class RouterExecption extends mfException
 { }
 

@@ -1,6 +1,6 @@
 <?php
 
-class Config
+class mfConfig
 {
 	private static $_data = array();
 	

@@ -1,5 +1,5 @@
 <?php
-class Response
+class mfResponse
 {
 	private static $instance;
 	private $headers = array();

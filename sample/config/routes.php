@@ -11,4 +11,4 @@ $routes = array(
 	array('', '/:controller', array('action' => 'index'))
 );
 
-Router::connect($routes);
+mfRoute::connect($routes);

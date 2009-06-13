@@ -13,5 +13,5 @@ function link_to($text, $url, $options = array())
 // get the url link
 function url_for($url, $absolute=false)
 {
-	return Router::generate($url, $absolute);
+	return mfRoute::generate($url, $absolute);
 }

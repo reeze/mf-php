@@ -5,11 +5,11 @@
 
 error_reporting(7);
 
-Config::set('show_debug_info', true);
-Config::set('enable_toolbar', true);
-Config::set('default_layout', 'application');
+mfConfig::set('show_debug_info', true);
+mfConfig::set('enable_toolbar', true);
+mfConfig::set('default_layout', 'application');
 
 // if set to true debug() function will take effect.
-Config::set('debug_mode', true);
+mfConfig::set('debug_mode', true);
 
-Config::set('enable_log', true);
+mfConfig::set('enable_log', true);

@@ -3,7 +3,7 @@
 /**
  * View layer. PHPView
  **/
-class View
+class mfView
 {
     private $vars = array();
     private $output;

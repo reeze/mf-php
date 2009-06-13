@@ -14,10 +14,10 @@
  */
 function include_partial($partial, $params)
 {
-	$request = Request::getInstance();
+	$request = mfRequest::getInstance();
 	
 	$view_path = APP_DIR . DS . 'views' . DS . $request->getController() . DS . "_$partial.php";
-	$view = new View($view_path, $params);
+	$view = new mfView($view_path, $params);
 	
 	// before output ob_start have stop direct oupt to browse, so we echo but no return string
 	echo $view->display(); 

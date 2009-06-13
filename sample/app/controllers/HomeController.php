@@ -1,22 +1,22 @@
 <?php
-class HomeController extends Controller {
-	protected function preExecute(Request $request)
+class HomeController extends mfController {
+	protected function preExecute(mfRequest $request)
 	{
 		if($request->getParameter('title')) $this->setTitle($request->getParameter('title'));
 	}
 	
 	
-	public function indexAction(Request $request)
+	public function indexAction(mfRequest $request)
 	{
 		$this->title = "What a test£¡";
 		
-		if($request->getMethod() == Request::GET)
+		if($request->getMethod() == mfRequest::GET)
 		{
 			$this->method = 'sure GET';
 		}
 	}
 	
-	public function testAction(Request $request)
+	public function testAction(mfRequest $request)
 	{
 		$this->setFlash('notice', 'Its a notice Flash message');
 		$this->redirect('/blog');

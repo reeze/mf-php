@@ -7,7 +7,7 @@
  *
  */
 
-class Flash
+class mfFlash
 {
 	private
 		static $instance,

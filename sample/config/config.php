@@ -1,10 +1,10 @@
 <?php
 
-Config::set("default_500_handler", false); // TODO FIXME
-Config::set('default_action', 'index');
+mfConfig::set("default_500_handler", false); // TODO FIXME
+mfConfig::set('default_action', 'index');
 
 // If your web server enabled url_rewrite,turn this on
-Config::set('url_rewrite', true); 
+mfConfig::set('url_rewrite', true); 
 
 
 /**
@@ -16,4 +16,4 @@ $middle_wares = array(
 	'ToolBarMiddleware'
 );
 
-Config::set('middlewares', $middle_wares);
+mfConfig::set('middlewares', $middle_wares);

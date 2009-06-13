@@ -8,7 +8,7 @@
 define('ROUTE_LOG', 'route');
 define('MIDDLEWARE_LOG', 'middleware');
 
-class Logger
+class mfLogger
 {
 	private static $_logs = array();
 	/**
@@ -19,7 +19,7 @@ class Logger
 	 */
 	public static function log($type, $msg)
 	{
-		if(Config::get('enable_log'))
+		if(mfConfig::get('enable_log'))
 		{
 			self::$_logs[] = array('type' => $type, 'message' => $msg, 'time' => time());
 		}

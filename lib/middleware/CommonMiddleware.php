@@ -10,7 +10,10 @@ class CommonMiddleware ///FIXME I can't extends from MiddleWare
 		// handle Flash system should initialized before any others
 		// so we clean here
 		// TODO do we need ajax request check before clean flash?
-		Flash::getInstance()->clean();
+		mfFlash::getInstance()->clean();
+		
+		// add controller class path
+		mfAutoLoader::addPath(APP_DIR . DS . 'controllers');
 		return $request;
 	}
 	/**

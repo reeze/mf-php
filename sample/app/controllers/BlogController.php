@@ -1,6 +1,6 @@
 <?php
 
-class BlogController extends Controller 
+class BlogController extends mfController 
 {
 	public function indexAction()
 	{
@@ -13,7 +13,7 @@ class BlogController extends Controller
 		
 	}
 	
-	public function showAction(Request $request)
+	public function showAction(mfRequest $request)
 	{
 		$post = array('title' => "hello World!", 'body' => "What a day!");
 		$this->post = $post;

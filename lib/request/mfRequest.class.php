@@ -3,7 +3,7 @@
 /**
  * Request class
  **/
-class Request
+class mfRequest
 {
     // HTTP methods
     const GET = 'get';
@@ -27,7 +27,7 @@ class Request
         $this->parameters = $_REQUEST; // TODO GET POST and URL embed
         
         //
-        if(!Config::get('url_rewrite') && 
+        if(!mfConfig::get('url_rewrite') && 
         	strpos($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']) == 0) // eg: /index.php/blah
         {
         	$path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
