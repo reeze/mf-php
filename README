@@ -1,0 +1,14 @@
+==MF PHP MVC Framework
+  my first php framework inspired by symfony rails and django
+
+It's just my experimental php framework, it's very basic
+
+==Features
+    - Symfony like route system
+    - MVC
+    - Friendly url
+
+==TODO
+ - Model Layer
+ - Plug$in system
+ - Third-Party libaray integration
