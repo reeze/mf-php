@@ -10,5 +10,6 @@ It's just my experimental php framework, it's very basic
 
 ==TODO
  - Model Layer
- - Plug$in system
+ - Plugin system
  - Third-Party libaray integration
+ - Cache system
