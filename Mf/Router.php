@@ -181,7 +181,7 @@ class Router
 		
 		// merge the default params
 //		$params = array_merge($route[2], $params);
-		Debug::p($params);
+//		Debug::p($params);
 		foreach ($params as $key => $value)
 		{
 			if(strpos($rule, ":$key") !== false)

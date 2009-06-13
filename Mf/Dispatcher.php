@@ -10,16 +10,16 @@ class Dispatcher
     	// Initial middleware classes
     	$middleware_classes = Config::get('middlewares', array());
     	
-    	$start_middlewares = array();
+    	$middlewares = array();
     	foreach ($middleware_classes as $middleware_class) 
     	{
-    			$start_middlewares[] = new $middleware_class;;
+    			$middlewares[] = new $middleware_class;;
     	}
     	    	
     	// ===========================================
     	// start process request
     	$request = Request::getInstance();
-    	foreach($start_middlewares as $middleware)
+    	foreach($middlewares as $middleware)
     	{
     		if(method_exists($middleware, 'process_request'))
     		{
@@ -46,9 +46,9 @@ class Dispatcher
         
         // ===========================================
         // start process response
-    	$end_middlewares = array_reverse($start_middlewares);
         $response = Response::getInstance();
-        foreach ($end_middlewares as $middleware)
+        // response middleware process in the reverse direction
+        foreach (array_reverse($middlewares) as $middleware)
         {
     		if(method_exists($middleware, 'process_response'))
     		{

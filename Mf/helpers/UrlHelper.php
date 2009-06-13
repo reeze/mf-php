@@ -5,9 +5,9 @@
  * TODO imply it 
  */
 
-function link_to()
+function link_to($text, $url, $options = array())
 {
-	
+	return "<a href='" . url_for($url) . "'>" . $text . "</a>"; 
 }
 
 // get the url link

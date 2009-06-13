@@ -16,7 +16,7 @@
     	$this->request = $request;
         // it's a private method of the class or action is not a method of the class
         if (substr($action, 0, 1) == '_' || ! method_exists($this, $action)) {
-            throw new Exception("Action '{$action}' doesn't exist");
+            throw new Exception("Action '{$action}' doesn't exist in " . get_class($this));
         }
         $this->layout = Config::get('default_layout');
         if($this->getRequest()->isAjax()) $this->layout = false;
