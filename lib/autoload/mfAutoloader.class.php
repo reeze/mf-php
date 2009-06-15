@@ -26,6 +26,9 @@ class mfAutoLoader
 		$paths = explode(PS, get_include_path());
 		$found = false;
 		
+		// manually find include files here. just because if the included file
+		// doesn't exist will throw warning...
+		
 		foreach ($paths as $path)
 		{
 			$file = $path . DS . "$class_name.php";

@@ -1,4 +1,5 @@
 <!-- Debug Tool Bar Middleware -->
+
 <style>
 	#mf_toolbar {
 		padding: 10px;
@@ -11,12 +12,12 @@
 	#mf_logs {
 	}
 	
-	
 </style>
 
+
 <div id="mf_toolbar">
-	<div id="mf_tool_bar_banner">
-		<a href="#" onclick="mf_logs.style.display=''">Show</a>
+	<div id="mf_toolbar_banner">
+		<a id="mf_toolbar_switcher" href="#" >Show</a>
 	</div>
 	
 	<div id="mf_logs" style="display:none">

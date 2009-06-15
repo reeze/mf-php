@@ -10,7 +10,7 @@ class BlogController extends mfController
 	
 	public function archiveAction($request)
 	{
-		
+	    $this->posts = Post::getAll();
 	}
 	
 	public function showAction(mfRequest $request)

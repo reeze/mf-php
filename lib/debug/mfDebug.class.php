@@ -1,5 +1,5 @@
 <?php
-class Debug
+class mfDebug
 {
 	public static function p()
 	{

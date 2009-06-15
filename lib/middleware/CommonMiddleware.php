@@ -3,8 +3,11 @@
  * Common Middleware class
  *
  */
-class CommonMiddleware ///FIXME I can't extends from MiddleWare
+class CommonMiddleware
 {
+    public static $ViewStylesheets = array();
+    public static $ViewJavascripts = array();
+    
 	public function process_request($request)
 	{
 		// handle Flash system should initialized before any others
@@ -14,6 +17,7 @@ class CommonMiddleware ///FIXME I can't extends from MiddleWare
 		
 		// add controller class path
 		mfAutoLoader::addPath(APP_DIR . DS . 'controllers');
+		mfAutoLoader::addPath(APP_DIR . DS . 'models');
 		return $request;
 	}
 	/**

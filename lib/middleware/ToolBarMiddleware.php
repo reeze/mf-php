@@ -2,6 +2,13 @@
 
 class ToolBarMiddleware
 {
+	public function process_request()
+	{
+		// add jquery files
+		mfResponse::getInstance()->addJavascript('jquery', 'mf_toolbar');
+		mfResponse::getInstance()->addStylesheet('mf_toolbar');	
+	}
+	
 	public function process_response()
 	{
 		if(!mfConfig::get('enable_toolbar', false)) return ;
@@ -12,6 +19,7 @@ class ToolBarMiddleware
 		
 		$params = array_merge($params, mfController::getMagicViewVars());
 		
+		
 		$toolbar = new mfView(MF_CORE_DIR . DS . 'default' . DS . 'toolbar.php', $params);
 		
 		$response = mfResponse::getInstance();
@@ -20,5 +28,6 @@ class ToolBarMiddleware
 								$toolbar->getOutput() . '</body>', 
 								$response->getBody());
 		$response->setBody($new_body);
+		
 	}
 }
