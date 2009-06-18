@@ -7,7 +7,7 @@ class BlogController extends mfController
 		$this->setTitle('Blog Index');
 		//$this->redirect("/home");
 	}
-	
+
 	public function archiveAction($request)
 	{
 	    $this->posts = Post::getAll();
@@ -19,5 +19,4 @@ class BlogController extends mfController
 		$this->post = $post;
 		$this->slug = $request->getParameter('slug');
 	}
-	
 }

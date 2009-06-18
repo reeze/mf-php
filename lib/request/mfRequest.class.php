@@ -16,9 +16,6 @@ class mfRequest
     private static $_instance;
     private $parameters = array();
     
-    private $controller;
-    private $action;
-
 
     // singleton parten, disable new method
     private function __construct()
@@ -59,46 +56,31 @@ class mfRequest
     public function setParameter($key, $value)
     {
     	if(!$key) return;
-    	
-    	switch ($key)
-    	{
-    		case 'controller':
-    			$this->setController($value);
-    			break;
-    		case 'action':
-    			$this->setAction($value);
-    			break;
-    		default:
-    			$this->parameters[$key] = $value;
-    	}
+    	$this->parameters[$key] = $value;
     }
-    
-    
-    /**
-     * Get controller name
-     *
-     * @return string
-     */
-    public function getController()
-    {
-    	return $this->controller;
-    }
-    /**
-     * Set controller name
-     */
-    public function setController($controller)
-    {
-    	$this->controller = $controller;
-    } 
     
     public function getAction()
     {
-    	return $this->action;
+    	return $this->getParameter('action');
+    }
+    
+    public function getController()
+    {
+    	return $this->getParameter('controller');
     }
     
     public function setAction($action)
     {
-    	$this->action = $action;
+    	$this->setParameter('action', $action);
+    }
+    
+    public function getFormat()
+    {
+    	return $this->getParameter('format', 'html');
+    }
+    public function setFormat($value)
+    {
+    	$this->setParameter('format', $value);
     }
 
     public function getMethod()

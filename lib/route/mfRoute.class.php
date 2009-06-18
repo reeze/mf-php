@@ -205,7 +205,7 @@ class mfRoute
 		
 		if(strpos($rule, ':') !== false)
 		{
-			throw new RouterExecption('Missing require paramter');
+			throw new RouterExecption("Route:$rule, Missing require paramter");
 		}
 		
 		$query =  http_build_query($params);
@@ -232,7 +232,7 @@ class mfRoute
 	 */
 	public static function match($route, $params)
 	{
-		echo "match:" . $route[1] . '<br />';
+//		echo "match:" . $route[1] . '<br />';
 		list(, $tokens) = self::compile_route($route[1]);
 		
 		
@@ -307,7 +307,7 @@ class mfRoute
 		
 
 		$route = "/^$route$/"; // add regex slash	
-		
+//		echo $route . "<br />";
 		return array($route, self::$compile_tokens);
 	}
 	

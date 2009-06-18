@@ -52,6 +52,11 @@
     	return mfRequest::getInstance();
     }
     
+    public function getRequestParameter($key, $default=null)
+    {
+    	return mfRequest::getInstance()->getParameter($key, $default);
+    }
+    
     public function setTitle($title)
     {
     	$this->_layout_vars_['title'] = $title;
@@ -120,7 +125,20 @@
         $controller_name = $this->getRequest()->getController();
         $action_name = $this->getRequest()->getAction();
         $view_path = APP_DIR . DS . 'views' . DS . $controller_name . DS;
-        $tpl_path = $view_path . $action_name . ".php";
+        
+        // Add Format support
+        $format = $this->getRequestParameter('format', 'html');
+        $formated_tpl = "{$view_path}{$action_name}.{$format}.php";
+        
+        if(file_exists($formated_tpl))
+        {
+        	$tpl_path = $formated_tpl;
+        }
+        else
+        {
+        	$tpl_path = $view_path . $action_name . ".php";
+        }
+               
         
         
         $view = new mfView($tpl_path, $this->_view_vars_);

@@ -45,6 +45,8 @@ class Mf
 		// load config file	
 		require_once $config_path . DS . 'config.php';
 		
+
+
 		$env_file = $config_path . DS . 'env' .  DS . MF_ENV . '.php';
 		if(!file_exists($env_file)) throw new MfException("Missing env file: $env_file");
 		
@@ -87,7 +89,7 @@ error_reporting(E_ALL | E_STRICT);
 // exception handler
 function exception_handler(Exception $e)
 {
-	//ob_clean();
+	ob_clean();
 	ob_start();
 		echo "<div id=\"msg\">" . $e->getMessage() . "</div>";
 		echo "<pre>" . $e->getTraceAsString() . "</pre>";

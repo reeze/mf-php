@@ -31,6 +31,7 @@
 	<div id="wrapper">
 		<div id="header">
 			<h1>MF: Sample App</h1>
+			<?php include_partial('layout/navor');?>
 		</div>
 		<?php
 			if($mf_flash->has('notice'))
@@ -39,10 +40,7 @@
 				echo $mf_flash->get('notice');
 				echo "</h>";
 			}
-		?>
-		<ul>
-			<li><?php echo link_to("Home", "@root")?></li>
-			<li><?php echo link_to("Post", "@view_post?year=2007&month=08&day=10&show=It#hah")?></li>
+		?><?php echo link_to("Post", "@view_post?year=2007&month=08&day=10&show=It#hah")?></li>
 		</ul>
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 	</div>

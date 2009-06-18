@@ -21,12 +21,14 @@
 	</div>
 	
 	<div id="mf_logs" style="display:none">
+		<pre>
 		<?php foreach ($logs as $log) {
 			echo $log['message'] . "<br />";
 		}
 		
-		echo "<hr />";
 		var_dump($mf_flash);
+		var_dump($mf_request);
 		?>
+		</pre>
 	</div>
 </div>
