@@ -1,4 +1,9 @@
-I want to include partial, below is:
 <?php
 include_partial('navor', array('name' => 'gooogle, from partial'));
 ?>
+
+<h1>Posts</h1>
+<?php foreach ($posts as $post): ?>
+	<hr>
+	<?php echo link_to($post['title'], "@view_post?year=2009&month=10&day=15&slug={$post['slug']}"); ?>
+<?php endforeach; ?>

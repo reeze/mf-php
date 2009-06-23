@@ -61,7 +61,16 @@ class mfResponse
 	}
 	public function display()
 	{
+		foreach ($this->headers as $header)
+		{
+			header($header);
+		}
 		echo $this->body;
+	}
+	
+	public function header($header)
+	{
+		$this->headers[] = $header;
 	}
 	
 	/**

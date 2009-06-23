@@ -34,17 +34,20 @@ class Mf
 		// start session support
 		session_start();
 		
+			
 		// We have to explict require auto load class here
 		require_once MF_CORE_DIR . '/autoload/mfAutoloader.class.php';
 		mfAutoLoader::initPath();
 		
 
+    	require_once 'sfYaml/sfYaml.php';
 		
 		$config_path = ROOT_DIR . DS . 'config';
 		
 		// load config file	
-		require_once $config_path . DS . 'config.php';
+		self::loadConfig();	
 		
+		self::loadModel();
 
 
 		$env_file = $config_path . DS . 'env' .  DS . MF_ENV . '.php';
@@ -59,17 +62,70 @@ class Mf
 		
 		// include env config file
 		require_once $env_file;
+		
+		
+		// add controller class path
+		mfAutoLoader::addPath(APP_DIR . DS . 'controllers');
+		mfAutoLoader::addPath(APP_DIR . DS . 'models');
+		mfAutoLoader::addPath(APP_DIR . DS . 'models' . DS . 'generated');
     }
     
     public static function dispatch()
     {
     	self::init();
+    	
     	//load routes file
-    	require_once ROOT_DIR . DS . 'config/routes.php';
+    	self::loadRoute();
+    	
+    	// Load models
     	
     	// get controller and action
     	mfRoute::route();
     	mfDispatcher::dispatch();
+    }
+    
+    public static function loadModel()
+    {
+    	if(mfConfig::get('use_database'))
+    	{
+    	    $databases = sfYaml::load(ROOT_DIR . DS . 'config' . DS . 'database.yml');
+    		
+    		require_once 'Doctrine/Doctrine.php';
+    		// autoload for doctrine
+            spl_autoload_register(array('Doctrine', 'autoload'));
+            
+            $manager = Doctrine_Manager::getInstance();
+            $conn = Doctrine_Manager::connection($databases[MF_ENV]['dsn']);
+            
+            $manager->setAttribute(Doctrine::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
+    	}
+    }
+    
+    public static function loadRoute()
+    {
+    	
+    	$array = sfYaml::load(ROOT_DIR . DS . 'config' . DS . 'routing.yml');
+    	
+    	$routes = array();
+    	foreach ($array as $name => $route)
+    	{
+    		$routes[] = array($name, $route['url'], $route['params']);
+    		// formated route
+    		$routes[] = array("{$name}_formatted", $route['url'] . '.:format', $route['params']);
+    	}
+    	
+    	mfRoute::connect($routes);
+    }
+    
+    /**
+     * Load config files
+     *
+     */
+    public static function loadConfig()
+    {
+    	$config = sfYaml::load(ROOT_DIR . DS . 'config' . DS . 'config.yml');
+    	
+    	mfConfig::init($config);
     }
     
     /**
@@ -89,7 +145,7 @@ error_reporting(E_ALL | E_STRICT);
 // exception handler
 function exception_handler(Exception $e)
 {
-	ob_clean();
+//	ob_clean();
 	ob_start();
 		echo "<div id=\"msg\">" . $e->getMessage() . "</div>";
 		echo "<pre>" . $e->getTraceAsString() . "</pre>";

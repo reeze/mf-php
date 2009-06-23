@@ -1,3 +1,4 @@
-<?php echo link_to($post['title'], '@view_post?year=2009&month=10&day=23&slug=' . $slug)?>
+Post detail view
 
-Show Post here
+<h1><?php echo $post['title'] ?></h1>
+<p><?php echo $post['content'] ?></p>

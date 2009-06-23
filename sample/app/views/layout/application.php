@@ -1,6 +1,8 @@
 <html>
 <head>
 	<title><?php isset($title) ? print($title) : print("Page") ?> - MF</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 	<?php echo include_javascripts('default', 'jquery'); ?>
 	<style type="text/css">
 	body {
@@ -40,8 +42,8 @@
 				echo $mf_flash->get('notice');
 				echo "</h>";
 			}
-		?><?php echo link_to("Post", "@view_post?year=2007&month=08&day=10&show=It#hah")?></li>
-		</ul>
+		?>
+
 		<div id="content"><?php echo $mf_layout_content; ?></content>
 	</div>
 </body>

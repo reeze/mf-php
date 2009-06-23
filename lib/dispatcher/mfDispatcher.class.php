@@ -40,7 +40,7 @@ class mfDispatcher
         
         $controller = new $controller_class;
         if(!$controller instanceof mfController) throw new MfException("Controller:$controller_class must extend from mfController class");
-                
+        
         $controller->execute($action . 'Action', $request);
        	// End Core Process
         

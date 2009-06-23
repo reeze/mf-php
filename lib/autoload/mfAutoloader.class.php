@@ -14,7 +14,7 @@ class mfAutoLoader
 		self::addPath(APP_DIR,
 					  ROOT_DIR . DS . 'lib',
 					  // TODO plugin paths
-					  ROOT_DIR . DS . 'vendor',
+					  MF_CORE_DIR . DS . 'vendor',
 					  MF_CORE_DIR);
 					  
 		// register autoload function
@@ -36,7 +36,7 @@ class mfAutoLoader
 			if(file_exists($file))
 			{
 				require_once $file;
-				return;
+				return true;
 			}
 		}
 		foreach ($paths as $path)
@@ -46,7 +46,7 @@ class mfAutoLoader
 			if(file_exists($cls_file))
 			{
 				require_once $cls_file;
-				return ;
+				return true;
 			}
 		}
 		foreach ($paths as $path)
@@ -59,11 +59,11 @@ class mfAutoLoader
 				if(file_exists($mf_file))
 				{
 					require_once $mf_file;
-					return;
+					return true;
 				}
 			}
 		}
-		throw new mfException("Can't find class {$class_name}");
+		return false;
 	}
 	/**
 	 * Add paths to the include path

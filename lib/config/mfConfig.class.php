@@ -4,6 +4,11 @@ class mfConfig
 {
 	private static $_data = array();
 	
+	public static function init($data)
+	{
+		self::$_data = $data;
+	}
+	
 	/**
 	 * Get the config value by key
 	 *
