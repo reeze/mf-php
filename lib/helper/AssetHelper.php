@@ -6,8 +6,6 @@
 
 /**
  * Output the added javascripts
- *
- * @return unknown
  */
 function include_javascripts()
 {
@@ -24,5 +22,26 @@ function include_javascripts()
 		$output .= "<script src='/js/$file.js' type='text/javascript'></script>\n"; // TODO rewrite it ,hard code here		
 	}
 
-	return $output;
+	echo $output;
+}
+
+/**
+ * Output the added stylesheets
+ */
+function include_stylesheets()
+{
+	// we may have new stylesheet
+	if(($new = func_get_args()))
+	{
+		mfResponse::getInstance()->addStylesheet($new);
+	}
+	
+	$files = mfResponse::getInstance()->getStylesheets();
+	$output = '';
+	foreach ($files as $file)
+	{
+		$output .= "<link type='text/css' rel='stylesheet' href='/css/$file.css' />\n"; // TODO rewrite it ,hard code here		
+	}
+
+	echo $output;
 }

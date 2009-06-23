@@ -1,7 +1,8 @@
 <html>
 <head>
 	<title><?php isset($title) ? print($title) : print("Page") ?> - MF</title>
-	<?php echo include_javascripts('default', 'jquery'); ?>
+	<?php include_javascripts('default', 'jquery'); ?>
+	<?php include_stylesheets('mf'); ?>
 	<style type="text/css">
 	body {
 		font-size: 12px;

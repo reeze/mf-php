@@ -9,11 +9,10 @@ It's just my experimental php framework, it's very basic
     - Friendly url
 
 ==TODO
-	- Model Layer
  	- Plugin system
  	- Third-Party libaray integration
  	- Cache system
 
  
  ==Requirement
- 	PHP >= 5.1.2
+ 	PHP: PHP 5.2.3+
