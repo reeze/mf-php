@@ -6,5 +6,7 @@
 .cache/*
 _test*
 
+sample/app/models/generated
 sample/app/models/generated/*
+sample/data/sql
 sample/data/sql/*

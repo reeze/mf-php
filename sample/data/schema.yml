@@ -29,3 +29,8 @@ Post:
     format: string
     raw_content: string
     content: string
+    catagory_id: integer
+    
+Catagory:
+  columns:
+    name: string
