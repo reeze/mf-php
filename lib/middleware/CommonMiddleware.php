@@ -15,9 +15,6 @@ class CommonMiddleware
 		// TODO do we need ajax request check before clean flash?
 		mfFlash::getInstance()->clean();
 		
-		// add controller class path
-		mfAutoLoader::addPath(APP_DIR . DS . 'controllers');
-		mfAutoLoader::addPath(APP_DIR . DS . 'models');
 		return $request;
 	}
 	/**

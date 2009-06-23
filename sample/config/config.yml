@@ -1,0 +1,18 @@
+
+
+
+
+
+
+encode: "utf-8"
+
+use_database: true
+
+default_layout: application
+
+default_500_handler: false
+url_rewrite: true
+
+middlewares:
+  - CommonMiddleware
+  - ToolBarMiddleware

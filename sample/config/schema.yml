@@ -1,0 +1,31 @@
+# database schema file
+
+detect_relations: true
+User:
+  actAs: [Timestampable]
+  columns:
+    username: string
+    password: string
+    first_name: string
+    last_name:  string
+  
+Settings:
+  columns:
+    blog_name: string
+    max_post:   integer
+  
+Post:
+  actAs:
+    Timestampable:
+    Sluggable:
+      fields: [title]
+      name: slug    # defaults to 'slug'
+      type: string  # defaults to 'clob'
+      length: 255   # defaults to null. clob doesn't require a length
+  columns:
+    user_id: integer
+    title: string
+    slug: string
+    format: string
+    raw_content: string
+    content: string

@@ -10,6 +10,8 @@
     protected $template;
     protected $_view_vars_ = array();
     protected $_layout_vars_ = array();
+    
+    protected $_respond_formats_ = array();
 
     public function execute($action, mfRequest $request)
     {
@@ -45,7 +47,7 @@
     /**
      * get request object	
      *
-     * @return Request
+     * @return mfRequest
      */
     public function getRequest()
     {
@@ -65,6 +67,35 @@
     public function setFlash($type, $message)
     {
     	mfFlash::getInstance()->set($type, $message);
+    }
+    
+    
+    /**
+     *  respond for certern format
+     */
+    public function respond($formats)
+    {
+    	foreach ($formats as $format => $params)
+    	{
+    		if($this->getRequestParameter('format') == $format)
+    		{
+    			// layout
+    			if(isset($params['layout']) && $params['layout'] == false)
+    			{
+    				$this->setLayout(false);
+    			}
+    			
+    			// check mime-types
+    			// Load mime types
+    			$mimes = sfYaml::load(ROOT_DIR . DS . 'config' . DS . 'mime.yml');
+    			if(isset($mimes[$format]))
+    			{
+    				$header = 'Content-Type: ' . $mimes[$format] . '; charset=' . mfConfig::get('encode');
+    				mfResponse::getInstance()->header($header);
+    			}
+    			break;
+    		}
+    	}
     }
     
     
@@ -130,6 +161,14 @@
         $format = $this->getRequestParameter('format', 'html');
         $formated_tpl = "{$view_path}{$action_name}.{$format}.php";
         
+        // the name as helpers will load automaticly
+        $helper_file = APP_DIR . DS . 'helpers' . DS . $this->getRequest()->getController() . 'Helper.php';
+        if(file_exists($helper_file))
+        {
+        	require_once $helper_file;
+        }
+        
+        
         if(file_exists($formated_tpl))
         {
         	$tpl_path = $formated_tpl;
@@ -138,8 +177,6 @@
         {
         	$tpl_path = $view_path . $action_name . ".php";
         }
-               
-        
         
         $view = new mfView($tpl_path, $this->_view_vars_);
         

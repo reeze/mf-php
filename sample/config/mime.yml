@@ -1,0 +1,10 @@
+# mime type register
+
+rss: application/
+css: text/css
+xml: application/xml
+rss: application/xml
+atom: application/atom+xml
+yaml: application/x-yaml
+multipart_form: multipart/form-data
+json: application/json

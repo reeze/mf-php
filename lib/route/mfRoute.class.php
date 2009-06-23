@@ -9,7 +9,7 @@ class mfRoute
 	 *
 	 * @param array $array
 	 * 			array('route_name', // empty for anonymous route
-	 * 				  ¡®rule', 		// rule
+	 * 				  ï¿½ï¿½rule', 		// rule
 	 * 				  array('a' => 1)	// array $params 
 	 * 				);
 	 */
@@ -94,7 +94,7 @@ class mfRoute
 	{
 		$old_internal_url = $internal_url; // just for exception throw
 		
-		if(empty($internal_url)) $internal_url = '@root'; // default route
+		if(empty($internal_url)) $internal_url = '@homepage'; // default route
 		
 		// parse params
 		$params = array();
@@ -177,9 +177,9 @@ class mfRoute
 	public static function fill_route($route, $params, $hash, $absolute=false)
 	{
 		$rule = $route[1];
-		$default_params = $route[2];
+		$default_params = isset($route[2]) ? $route[2] : array();
 		
-		$new_params = array_merge($params, $route[2]);
+		$new_params = array_merge($params, $default_params);
 		
 		// merge the default params
 //		$params = array_merge($route[2], $params);
@@ -292,7 +292,7 @@ class mfRoute
 				mfRoute::$compile_tokens[] = $match[1];
 				//var_dump(Router::$compile_tokens);echo "<br />";
 				
-				return "([a-zA-Z0-9]+)";
+				return "([a-zA-Z0-9\-_%]+)";
 			}
 		}
 		
@@ -303,7 +303,7 @@ class mfRoute
 		
 		$route = preg_replace($reg_strip_parten, $reg_strip_repalce, $route);
 		// FIXME more characters should allowed in match parten		
-		$route = preg_replace_callback("/:([a-zA-Z0-9]+)/", '_callback', $route);
+		$route = preg_replace_callback("/:([a-zA-Z0-9\-_%]+)/", '_callback', $route);
 		
 
 		$route = "/^$route$/"; // add regex slash	
