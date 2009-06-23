@@ -1,6 +1,5 @@
-# database schema file
-
 detect_relations: true
+
 User:
   actAs: [Timestampable]
   columns:
@@ -24,6 +23,7 @@ Post:
       length: 255   # defaults to null. clob doesn't require a length
   columns:
     user_id: integer
+    type: string  # post, page
     title: string
     slug: string
     format: string

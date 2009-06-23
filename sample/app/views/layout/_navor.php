@@ -1,11 +1,9 @@
-<?php
-/**
- * Global navor
- */
-?>
 <div id="navor">
-	<ul><?php echo link_to('Home', '@homepage'); ?></ul>
-	<ul><?php echo link_to('Feed', '@feed?format=rss'); ?></ul>
-	<ul><?php echo link_to('Blog', 'blog/index'); ?></ul>
-	<ul><?php echo link_to('+ New Post', 'blog/new'); ?></ul>
+	<ul class="clearfix">
+		<li><?php echo link_to('Home', '@homepage'); ?></li>
+		<li><?php echo link_to('About', '@page?slug=about'); ?></li>
+		<li><?php echo link_to('Feed', '@feed?format=rss'); ?></li>
+		<li><?php echo link_to('Blog', 'blog/index'); ?></li>
+		<li><?php echo link_to('+ New Post', 'blog/new'); ?></li>
+	</ul>
 </div>

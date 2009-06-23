@@ -15,8 +15,8 @@ Mf::init();
 $config = array('data_fixtures_path'  =>  '/path/to/data/fixtures',
                 'models_path'         =>  APP_DIR . DS . 'models',
                 'migrations_path'     =>  ROOT_DIR . DS . 'data' . DS . 'migrations',
-                'sql_path'            =>  ROOT_DIR . DS . 'sql',
-                'yaml_schema_path'    =>  ROOT_DIR . DS . 'config');
+                'sql_path'            =>  ROOT_DIR . DS . 'data' . DS . 'sql',
+                'yaml_schema_path'    =>  ROOT_DIR . DS . 'data');
 
 $cli = new Doctrine_Cli($config);
 $cli->run($_SERVER['argv']);

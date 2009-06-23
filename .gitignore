@@ -5,3 +5,6 @@
 *.swp
 .cache/*
 _test*
+
+sample/app/models/generated/*
+sample/data/sql/*

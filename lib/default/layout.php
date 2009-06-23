@@ -2,29 +2,29 @@
 <head>
 	<title>MF:Micro PHP Framework</title>
 	<style type="text/css">
-	body {
+	body#error500 {
 		font-size: 12px;
 		background-color: #efefef;
 		margin: 0;
 	}
 	
-	#wrapper {
+	#error500 #wrapper {
 		background-color: #fff;
 		margin: 20px auto;
 		width: 800px;
 		border: 1px solid #acacac;
 	}
-	#header {
+	#error500 #header {
 		margin: 0 20px;
 		border-bottom: 2px solid #9e9e9e;
 	}
-	#header h1 {
+	#error500 #header h1 {
 		color: #5e5e33;
 	}
-	#content {
+	#error500 #content {
 		padding: 20px
 	}
-	#msg {
+	#error500 #msg {
 		border: 1px solid #cfcfd0;
 		border-width: 1px 0;
 		background-color: #efefef;
@@ -34,7 +34,7 @@
 	
 	</style>
 </head>
-<body>
+<body id="error500">
 	<div id="wrapper">
 		<div id="header">
 			<h1>MF: The Micro PHP Framework</h1>

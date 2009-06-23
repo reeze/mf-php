@@ -1,3 +1,75 @@
-body{
+body {
 	font-size: 12px;
+	background-color: #efefef;
+	margin: 0;
 }
+
+a {
+	color: #da3c99;
+	text-decoration: none;
+}
+
+ul {
+	padding: 0;
+}
+
+#wrapper {
+	background-color: #fff;
+	margin: 10px auto;
+	width: 800px;
+	border: 1px solid #acacac;
+}
+#header {
+	margin: 0 20px;
+}
+#header h1 {
+	color: #5e5e33;
+}
+
+#content {
+	padding: 20px
+}
+
+#navor {
+}
+
+#navor ul {
+	list-style: none;
+	background-color: #eee;
+	border-bottom: 1px solid #af99ca;
+	padding-left: 10px;
+}
+
+#navor li {
+	float: left;
+	padding: 6px;
+	margin-right: 10px;
+}
+
+#navor a {
+	font-size: 16px;
+	padding: 4px;
+	font-weight: bold;
+}
+
+#navor a:hover {
+	background-color: #ddd;
+	border-bottom: 2px solid #da3c99;
+}
+
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.clearfix {
+	display: inline-block;
+}
+/* Hide from IE Mac \*/
+.clearfix {
+	display: block;
+}
+/* End hide from IE Mac / / end of clearfix */

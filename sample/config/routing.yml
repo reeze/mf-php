@@ -15,6 +15,10 @@ view_post:
 feed:
   url: /feed.:format
   params: {controller: blog, action: index}
+  
+page:
+  url: /page/:slug
+  params: {controller: page, action: show}
 
 default_index:
   url: /:controller
