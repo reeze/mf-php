@@ -56,6 +56,6 @@ class mfDispatcher
         		$middleware->process_response($response);
     		}
         }
-        // end process reponse
+        // end process response
     }
 }

@@ -14,15 +14,18 @@ ul {
 }
 
 #wrapper {
-	background-color: #fff;
 	margin: 10px auto;
 	width: 800px;
+}
+#main {
+
+	background-color: #fff;
 	border: 1px solid #acacac;
 }
 #header {
-	margin: 0 20px;
 }
 #header h1 {
+	padding-left: 20px;
 	color: #5e5e33;
 }
 
@@ -58,6 +61,36 @@ ul {
 }
 
 
+#main-content #content {
+	float: left;
+	width: 70%;
+}
+#main-content #sidebar {
+	float: right;
+	width: 19%;
+}
+
+
+
+
+#notice {
+	padding: 6px;
+	border: 1px solid yellow;
+	background-color: #fffccf;
+	margin: 0 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ClearFix */
 .clearfix:after {
 	content: ".";
 	display: block;

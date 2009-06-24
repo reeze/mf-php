@@ -5,11 +5,32 @@ class mfResponse
 	private $headers = array();
 	private $stylesheets = array();
 	private $javascripts = array();
+	private $slots = array();
+	private $view_class = 'mfView'; // default view class
 	private $body;
 	
 	private function __constructor()
 	{
 		
+	}
+	
+	public function setViewClass($class)
+	{
+		if(!class_exists($class))
+		{
+			throw new mfException("Missing view class: $class");
+		}
+		
+		$this->view_class = $class;
+	}
+	/**
+	 * get view class
+	 *
+	 * @return string
+	 */
+	public function getViewClass()
+	{
+		return $this->view_class;
 	}
 	
 	/**
@@ -68,6 +89,16 @@ class mfResponse
 		echo $this->body;
 	}
 	
+	// Slot support
+	public function setSlot($name, $content)
+	{
+		$this->slots[$name] = $content;
+	}
+	public function getSlot($name, $default=NULL)
+	{
+		return isset($this->slots[$name]) ? $this->slots[$name] : $default;
+	}
+	
 	public function header($header)
 	{
 		$this->headers[] = $header;
@@ -86,4 +117,5 @@ class mfResponse
         }
         return self::$instance;
 	}
+	
 }

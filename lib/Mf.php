@@ -48,6 +48,9 @@ class Mf
 		self::loadConfig();	
 		
 		self::loadModel();
+		
+		// register view classes
+		self::registerViewClasses();
 
 
 		$env_file = $config_path . DS . 'env' .  DS . MF_ENV . '.php';
@@ -128,6 +131,18 @@ class Mf
     	mfConfig::init($config);
     }
     
+    
+    public static function registerViewClasses()
+    {
+    	$classes = array();
+    	$views = mfConfig::get('views');
+    	foreach ($views as $view)
+    	{
+    		$classes[] = call_user_func(array($view, 'register'));
+    	}
+    	mfConfig::set('mf.view.classes', $classes);
+    }
+    
     /**
      * Get the current MF version
      *
@@ -152,8 +167,8 @@ function exception_handler(Exception $e)
 		
 		echo "<hr /> Vars:<br /><pre>" . var_dump(mfRequest::getInstance()) . "</pre>";
 	$content = ob_get_clean();
-	
-	$view = new mfView(MF_CORE_DIR . DS . 'default' . DS . 'layout.php', array('mf_layout_content' => $content));
+	list($file, $view_class) = findTemplateFileName(MF_CORE_DIR . DS . 'default' . DS . 'layout');
+	$view = new $view_class($file, array('mf_layout_content' => $content));
 	$view->display();
 }
 

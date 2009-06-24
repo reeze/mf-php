@@ -19,8 +19,9 @@ class ToolBarMiddleware
 		
 		$params = array_merge($params, mfController::getMagicViewVars());
 		
+		list($tpl, $view_class) = findTemplateFileName(MF_CORE_DIR . DS . 'default' . DS . 'toolbar');
 		
-		$toolbar = new mfView(MF_CORE_DIR . DS . 'default' . DS . 'toolbar.php', $params);
+		$toolbar = new $view_class($tpl, $params);
 		
 		$response = mfResponse::getInstance();
 		

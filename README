@@ -9,9 +9,7 @@ It's just my experimental php framework, it's very basic
     - Friendly url
 
 ==TODO
- 	- Plugin system
- 	- Third-Party libaray integration
- 	- Cache system
+ 	- @see TODO
 
  
  ==Requirement

@@ -6,8 +6,10 @@
 
  class mfController
  {
-    protected $layout = false;
-    protected $template;
+    protected $_layout_ = false;
+    protected $_layout_dir_;
+    protected $_template_;
+    protected $_template_dir_;
     protected $_view_vars_ = array();
     protected $_layout_vars_ = array();
     
@@ -19,8 +21,42 @@
         if (substr($action, 0, 1) == '_' || ! method_exists($this, $action)) {
             throw new Exception("Action '{$action}' doesn't exist in " . get_class($this));
         }
-        $this->layout = mfConfig::get('default_layout');
-        if($this->getRequest()->isAjax()) $this->layout = false;
+        $this->_layout_ = mfConfig::get('default_layout');
+        if($this->getRequest()->isAjax()) $this->_layout_ = false;
+        
+        
+        
+        //==============Template default set==============================
+        $controller_name = $this->getRequest()->getController();
+        $action_name = $this->getRequest()->getAction();// Add Format support
+        $format = $this->getRequestParameter('format', 'html');
+        
+        // Template & Layout dir
+        $template_dir = APP_DIR . DS . 'views' . DS . $controller_name;
+        $template = $action_name;
+        $layout_dir = APP_DIR . DS . 'views' . DS . 'layout';
+        
+        $view_class = mfResponse::getInstance()->getViewClass();
+        // formated template
+        if(file_exists($template_fmt = $template_dir . DS . $template . ".{$format}." .  call_user_func(array($view_class, 'getExtension'))))
+        {
+        	$template .= ".{$format}";
+        }
+    
+        $this->setTemplateDir($template_dir);
+        $this->setTemplate($template);
+        $this->setLayoutDir($layout_dir);        
+        
+        // the name as helpers will load automaticly
+        $helper_file = APP_DIR . DS . 'helpers' . DS . $this->getRequest()->getController() . 'Helper.php';
+        if(file_exists($helper_file))
+        {
+        	require_once $helper_file;
+        }
+        
+        $this->setTemplateDir($template_dir);
+        $this->setTemplate($template);
+        //==============End template default set===========================
         
         /**
          * User can define a preExecute and postExecute to round there action
@@ -39,9 +75,27 @@
         {
         	call_user_func_array(array($this, 'postExecute'), array($request));	
         }
-    	
+    	        
     	// render the view
     	$this->render();
+    }
+    
+    public function setLayoutDir($dir)
+    {
+    	$this->_layout_dir_  = $dir;
+    }
+    public function getLayoutDir()
+    {
+    	return $this->_layout_dir_;
+    }
+    
+    public function setTemplateDir($dir)
+    {
+    	$this->_template_dir_ = $dir;
+    }
+    public function getTemplateDir()
+    {
+    	return $this->_template_dir_;
     }
     
     /**
@@ -109,12 +163,20 @@
     // set new layout
     protected function setLayout($layout)
     {
-        $this->layout = $layout;    
+        $this->_layout_ = $layout;    
+    }
+    protected function getLayout()
+    {
+    	return $this->_layout_;
     }
     // Use assigned new template to render view
     protected function setTemplate($tpl)
     {
-        $this->template = $tpl; 
+        $this->_template_ = $tpl; 
+    }
+    public function getTemplate()
+    {
+    	return $this->_template_;
     }
     
     // Now view support direct assign
@@ -147,46 +209,25 @@
     {
     	// Magic view variables
     	$magic_vars = self::getMagicViewVars();
+    	
     	// merge
-    	
     	$this->_view_vars_   = array_merge($magic_vars, $this->_view_vars_);
-    	$this->_layout_vars_ = array_merge($magic_vars, $this->_layout_vars_);
-    	
-        // TODO get the view path
-        $controller_name = $this->getRequest()->getController();
-        $action_name = $this->getRequest()->getAction();
-        $view_path = APP_DIR . DS . 'views' . DS . $controller_name . DS;
+    	$this->_layout_vars_ = array_merge($magic_vars, $this->_layout_vars_);    	
         
-        // Add Format support
-        $format = $this->getRequestParameter('format', 'html');
-        $formated_tpl = "{$view_path}{$action_name}.{$format}.php";
-        
-        // the name as helpers will load automaticly
-        $helper_file = APP_DIR . DS . 'helpers' . DS . $this->getRequest()->getController() . 'Helper.php';
-        if(file_exists($helper_file))
-        {
-        	require_once $helper_file;
-        }
-        
-        
-        if(file_exists($formated_tpl))
-        {
-        	$tpl_path = $formated_tpl;
-        }
-        else
-        {
-        	$tpl_path = $view_path . $action_name . ".php";
-        }
-        
-        $view = new mfView($tpl_path, $this->_view_vars_);
+		
+    	list($template, $view_class) = findTemplateFileName($this->getTemplateDir() . DS . $this->getTemplate());
+    	    	
+        $view = new $view_class($template, $this->_view_vars_);
         
         // render layout
-        if($this->layout)
+        if($this->_layout_)
         {
         	// content here
         	$this->_layout_vars_['mf_layout_content'] = $view->getOutput();
-        	$layout_path = APP_DIR . DS . 'views' . DS . 'layout' . DS;
-        	$layout = new mfView($layout_path . $this->layout . '.php', $this->_layout_vars_);
+        	
+        	list($layout_file, $layout_class) = findTemplateFileName($this->getLayoutDir() . DS . $this->getLayout());
+        	
+        	$layout = new $layout_class($layout_file, $this->_layout_vars_);
         	
         	mfResponse::getInstance()->setBody($layout->getOutput());
         }
@@ -196,5 +237,4 @@
 	       	mfResponse::getInstance()->setBody($view->getOutput());
         }
     }
-
  }

@@ -16,3 +16,8 @@ url_rewrite: true
 middlewares:
   - CommonMiddleware
   - ToolBarMiddleware
+  
+  
+views:
+  - mfView
+  - mfMarkdownView

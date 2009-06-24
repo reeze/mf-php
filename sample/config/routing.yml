@@ -20,6 +20,10 @@ page:
   url: /page/:slug
   params: {controller: page, action: show}
 
+document:
+  url: /doc/:page
+  params: {controller: document, action: show}
+
 default_index:
   url: /:controller
   params: {action: index}

@@ -8,20 +8,24 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="header">
-			<h1>MF: My PHP Framework</h1>
-			<?php include_partial('layout/navor');?>
+		<div id="main">
+			<div id="header">
+				<h1>MF: My PHP Framework</h1>
+				<?php include_partial('layout/navor');?>
+			</div>
+			<?php
+				if($mf_flash->has('notice'))
+				{
+					echo "<div id='notice'>" . $mf_flash->get('notice') . "</div>";
+				}
+			?>
+	
+			<div id="main-content" class="clearfix">
+				<div id="content"><?php echo $mf_layout_content; ?></div>
+				<?php include_partial('layout/sidebar'); ?>
+			</div>
 		</div>
-		<?php
-			if($mf_flash->has('notice'))
-			{
-				echo "<h>";
-				echo $mf_flash->get('notice');
-				echo "</h>";
-			}
-		?>
-
-		<div id="content"><?php echo $mf_layout_content; ?></content>
+		<?php include_partial('layout/footer'); ?>
 	</div>
 </body>
 </html>

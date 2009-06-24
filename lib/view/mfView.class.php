@@ -5,21 +5,43 @@
  **/
 class mfView
 {
-    private $vars = array();
-    private $output;
+	protected static $extension = 'php';	
+    protected  $vars = array();
+    protected $output;
     
-    public function __construct($view_file, $params)
+    public function __construct($file, $params=array())
     {
-    	if(!file_exists($view_file)) throw new MfException("Missing view: $view_file");
+    	if(!file_exists($file))
+    	{
+//    		throw new Exception("Missing view: $file");
+    	}
     	$this->vars = $params;
-    	$this->render($view_file, $params);
+    	$this->render($file, $params);
+    }
+    
+    /**
+     * Register extension and class name
+     *
+     */
+    public static function register()
+    {
+    	return array('extension' => self::getExtension(), 'class' => __CLASS__);
+    }
+    
+    /**
+     * Get the extension of this view connected with
+     *
+     */
+    public static function getExtension()
+    {
+    	return self::$extension;
     }
     
     public function getOutput()
     {
     	return $this->output;
     }
-    public function render($view_file, $params)
+    public function render($view_file, $params=array())
     {
     	ob_start();
         extract($this->vars, EXTR_SKIP);
@@ -30,4 +52,6 @@ class mfView
     {
     	echo $this->output;
     }
+	public function __sleep(){
+	}
 }
