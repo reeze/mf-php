@@ -1,4 +1,0 @@
-# database connections
-
-dev:
-  dsn: mysql://root:123456@localhost/mf
