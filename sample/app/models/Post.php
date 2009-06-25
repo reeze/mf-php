@@ -30,4 +30,10 @@ class Post extends BasePost
 				'day' => $day,
 				'slug' => $this->slug));
 	}
+	public function preSavess(Doctrine_Event $event)
+	{
+		// may have empty slug
+//		if(!$this->slug) $this->slug = md5(rand(10));
+		return self::preSave($event);
+	}
 }

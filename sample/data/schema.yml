@@ -21,6 +21,7 @@ Post:
       name: slug    # defaults to 'slug'
       type: string  # defaults to 'clob'
       length: 255   # defaults to null. clob doesn't require a length
+      builder: [mfUtils, urlize]  # Doctrine urlize have problem with chinese
   columns:
     user_id: integer
     catagory_id: integer
@@ -39,6 +40,7 @@ Catagory:
       name: slug
       type: string
       lenght: 255
+      builder: [mfUtils, urlize]
   columns:
     name: string
     slug: string

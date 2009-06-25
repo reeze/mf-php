@@ -12,5 +12,9 @@
  */
 class Catagory extends BaseCatagory
 {
-
+    public static function getAll()
+    {
+    	return Doctrine_Query::create()
+                        ->from('Catagory c')->orderBy('c.created_at DESC')->fetchArray();
+    }
 }

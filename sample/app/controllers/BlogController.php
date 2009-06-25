@@ -19,16 +19,20 @@ class BlogController extends mfController
 	
 	public function newAction(mfRequest $request)
 	{
+        $this->catagories = Catagory::getAll();
+
 		if($request->getMethod() == mfRequest::POST)
 		{
 			$post = new Post();
 			$post->title = $request->getParameter('title');
 			$post->content = $request->getParameter('content');
+            $post->catagory_id = $request->getParameter('catagory_id');
+
 			if($post->isValid())
 			{
 				$post->save();
 				$this->setFlash('notice', '成功发布博文:)');
-				$this->redirect('/blog/index');
+				$this->redirect('blog/index');
 			}
 		}
 	}

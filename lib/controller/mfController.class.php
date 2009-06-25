@@ -161,6 +161,7 @@
     // redirect
     protected function redirect($url)
     {
+    	$url = url_for($url);
         header("Location: $url"); // TODO Is it right?
         exit;
     }

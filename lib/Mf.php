@@ -30,7 +30,7 @@ class Mf
     	define('MF_START_TIME', time()); // framework start time
 		
         //include helpers
-		require_once 'util/mfUtils.php';
+		require_once 'util/mfUtils.class.php';
 
 		if(!APP_DIR) throw new MfException('Application path havn\'t set yet');
 		if(!defined('MF_ENV')) define('MF_EVN', 'dev'); // default env
@@ -162,7 +162,7 @@ error_reporting(E_ALL | E_STRICT);
 		
 // I use findTemplateFileName() function here , so we have to include this file first
 // FIXME it seems not good here
-require_once 'util/mfUtils.php';
+require_once 'util/mfUtils.class.php';
 
 // exception handler
 function exception_handler(Exception $e)
