@@ -9,4 +9,5 @@
 		<li>This is the sidebar</li>
 		<li>This is the sidebar</li>
 	</ul>
+	<?php include_component('blog', 'catagory');?>
 </div>

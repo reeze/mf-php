@@ -2,15 +2,14 @@ homepage:
   url: /
   params: {controller: home, action: index}
   
-archive_index:
-  url: /archive
-  params: {controller: blog, action: archive}
-
 # View the post
 view_post:
   url: /:year/:month/:day/:slug
   params: {controller: blog, action: show}
 
+archive_index:
+  url: /archive
+  params: {controller: blog, action: archive}
 
 feed:
   url: /feed.:format

@@ -108,6 +108,11 @@
     	return mfRequest::getInstance();
     }
     
+    public function getUser()
+    {
+    	return mfUser::getInstance();
+    }
+    
     public function getRequestParameter($key, $default=null)
     {
     	return mfRequest::getInstance()->getParameter($key, $default);
@@ -198,8 +203,9 @@
     public function getMagicViewVars()
     {
     	$magic_vars = array(
-    		'mf_flash' => mfFlash::getInstance(),
-    		'mf_request' => mfRequest::getInstance()
+    	   'mf_flash' => mfFlash::getInstance(),
+    	   'mf_request' => mfRequest::getInstance(),
+    	   'mf_user' => mfUser::getInstance()
     	);
     	return $magic_vars;
     }

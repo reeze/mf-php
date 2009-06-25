@@ -40,17 +40,7 @@ function include_partial($partial, $params=array())
 	{
 		$view_path = VIEWS_DIR . DS . $request->getController();
 	}
-	
-	// Request format support
-//	if(file_exists($view_path . DS . $formated_partial))
-//	{
-//		$view_tpl = $view_path . DS . $formated_partial;
-//	}
-//	else
-//	{
-//		$view_tpl = $view_path . DS . $partial;
-//	}
-	
+		
 	list($view_tpl, $view_class) = findTemplateFileName($view_path . DS . $partial);
 	
 	$view = new $view_class($view_tpl, $params);
@@ -59,6 +49,23 @@ function include_partial($partial, $params=array())
 	echo $view->display(); 
 }
 
+/**
+ * Include the component
+ *
+ * @param unknown_type $component_name
+ * @param unknown_type $method
+ * @param unknown_type $args
+ */
+function include_component($component_name, $method, $args=array())
+{
+	$component_name_up = ucwords($component_name);
+	$component_class = "{$component_name_up}Component";
+	if(!class_exists($component_class)) throw new mfException("Missing component: $component_class");
+	
+	$comp = new $component_class();
+	
+	echo $comp->execute($component_name, $method, $args);
+}
 
 
 /**

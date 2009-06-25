@@ -95,11 +95,16 @@ class mfRequest
     {
         return $this->getMethod() == self::AJAX;
     }
+    
+    public function isPost()
+    {
+    	return $this->getMethod() == self::POST;
+    }
 
     /**
      * get request instance
      *
-     * @return Request
+     * @return mfRequest
      */
     public static function getInstance()
     {

@@ -23,9 +23,22 @@ Post:
       length: 255   # defaults to null. clob doesn't require a length
   columns:
     user_id: integer
+    catagory_id: integer
     type: string  # post, page
     title: string
     slug: string
     format: string
     raw_content: string
     content: string
+    
+Catagory:
+  actAs:
+    Timestampable:
+    Sluggable:
+      fields: [name]
+      name: slug
+      type: string
+      lenght: 255
+  columns:
+    name: string
+    slug: string

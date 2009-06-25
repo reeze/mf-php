@@ -52,6 +52,4 @@ class mfView
     {
     	echo $this->output;
     }
-	public function __sleep(){
-	}
 }
