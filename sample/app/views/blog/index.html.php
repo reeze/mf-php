@@ -1,7 +1,3 @@
-<?php
-include_partial('navor', array('name' => 'gooogle, from partial'));
-?>
-
 <h1>Posts</h1>
 <?php foreach ($posts as $post): ?>
 	<hr>

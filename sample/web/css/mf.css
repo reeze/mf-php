@@ -30,7 +30,9 @@ ul {
 }
 
 #content {
-	padding: 20px
+	padding: 0 20px;
+	border-right: 1px solid #ccc;
+	margin-bottom: 20px;
 }
 
 #navor {
@@ -68,8 +70,14 @@ ul {
 #main-content #sidebar {
 	float: right;
 	width: 19%;
+	margin: 0 20px;
 }
 
+
+#footer
+{
+	padding: 5px 0;
+}
 
 
 

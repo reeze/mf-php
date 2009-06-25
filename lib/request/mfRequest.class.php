@@ -20,7 +20,11 @@ class mfRequest
     // singleton parten, disable new method
     private function __construct()
     {
-        // TODO clean it first
+		// strip the slashes...
+		if(get_magic_quotes_gpc() == true) {
+		    $_REQUEST = array_map('stripslashes',$_REQUEST);
+		}
+    	
         $this->parameters = $_REQUEST; // TODO GET POST and URL embed
         
         //
