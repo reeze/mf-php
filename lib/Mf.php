@@ -28,7 +28,7 @@ class Mf
     public static function init()
     {
     	define('MF_START_TIME', time()); // framework start time
-		
+    	define('VIEWS_DIR', APP_DIR . DS . 'views');
         //include helpers
 		require_once 'util/mfUtils.class.php';
 

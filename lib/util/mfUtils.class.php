@@ -294,14 +294,15 @@ function findTemplateFileName($file_without_ext)
     
     foreach ($associations as $association) {
     	if(file_exists($file = $file_without_ext . ".$format." . $association['extension'])|| // formated file
-    	   file_exists($file = $file_without_ext . '.' . $association['extension']))
+    	   file_exists($file = $file_without_ext . '.' . $association['extension'])||
+    	   file_exists($file = $file_without_ext . '.html.' . $association['extension'])) // Fall back to check if the html exist
     	{
     		$view_class = $association['class'];
     		break;
     	}
     }
     
-    if(!isset($view_class)) throw new mfException("Can't find template: $file_without_ext");
+    if(!isset($view_class)) throw new mfException("Can't find template: $file_without_ext.{format}.php");
     
     return array($file, $view_class);
 }

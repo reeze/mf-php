@@ -29,8 +29,6 @@ function include_partial($partial, $params=array())
 	
 	$path =  implode('/', $array); // reconnect to the path
 	
-	define('VIEWS_DIR', APP_DIR . DS . 'views');
-	
 	// specify certain controller to render
 	if($path)
 	{
