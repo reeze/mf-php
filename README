@@ -1,13 +1,4 @@
 * MF PHP MVC Framework *
 My php framework inspired by symfony rails and django
 
-** Features **
-    - MVC
-    - Friendly url
-
-** TODO **
- 	- @see TODO
-
- 
-** Requirement **
- 	PHP: PHP 5.2.3+
+* MF PHP has renamed to rythm http://github.com/reeze/rythm
